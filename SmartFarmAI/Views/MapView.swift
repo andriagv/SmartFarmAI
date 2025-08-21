@@ -42,6 +42,35 @@ struct MapView: View {
             .padding(.trailing, 16)
             .ignoresSafeArea()
             
+            // Zoom controls on the right side
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    VStack(spacing: 4) {
+                        Button(action: { vm.zoomIn() }) {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.title2)
+                                .foregroundColor(.white)
+                                .background(Color.black.opacity(0.6))
+                                .clipShape(Circle())
+                        }
+                        .buttonStyle(PressableButtonStyle())
+                        
+                        Button(action: { vm.zoomOut() }) {
+                            Image(systemName: "minus.circle.fill")
+                                .font(.title2)
+                                .foregroundColor(.white)
+                                .background(Color.black.opacity(0.6))
+                                .clipShape(Circle())
+                        }
+                        .buttonStyle(PressableButtonStyle())
+                    }
+                    .padding(.trailing, 16)
+                }
+                .padding(.bottom, 120)
+            }
+            
             NavigationLink(destination: FieldAnalysisView(vm: vm), isActive: $navigateToAnalysis) { EmptyView() }
         }
         .overlay(alignment: .bottom) {

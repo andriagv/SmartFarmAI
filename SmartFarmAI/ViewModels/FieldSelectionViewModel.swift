@@ -6,6 +6,7 @@ final class FieldSelectionViewModel: ObservableObject {
     @Published var polygon: [CLLocationCoordinate2D] = []
     @Published var mapCenter: CLLocationCoordinate2D?
     @Published var userLocation: CLLocationCoordinate2D?
+    @Published var currentZoomLevel: Double = 0.02
 
     func update(markers: [[Double]], polygon: [[Double]]) {
         self.markers = markers.map { CLLocationCoordinate2D(latitude: $0[0], longitude: $0[1]) }
@@ -31,6 +32,14 @@ final class FieldSelectionViewModel: ObservableObject {
         }
         let areaMeters2 = abs(sum) / 2.0
         return areaMeters2 / 10_000.0
+    }
+    
+    func zoomIn() {
+        currentZoomLevel = max(0.001, currentZoomLevel * 0.7)
+    }
+    
+    func zoomOut() {
+        currentZoomLevel = min(0.5, currentZoomLevel * 1.4)
     }
 }
 

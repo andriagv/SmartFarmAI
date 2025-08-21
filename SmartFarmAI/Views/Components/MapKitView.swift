@@ -32,10 +32,19 @@ struct MapKitView: UIViewRepresentable {
     func updateUIView(_ map: MKMapView, context: Context) {
         context.coordinator.parent = self
         if let center = viewModel.mapCenter, context.coordinator.isInitialLoad {
-            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: viewModel.currentZoomLevel, longitudeDelta: viewModel.currentZoomLevel))
             map.setRegion(region, animated: true)
             context.coordinator.isInitialLoad = false
         }
+        
+        // Handle zoom changes
+        if context.coordinator.lastZoomLevel != viewModel.currentZoomLevel {
+            let center = map.centerCoordinate
+            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: viewModel.currentZoomLevel, longitudeDelta: viewModel.currentZoomLevel))
+            map.setRegion(region, animated: true)
+            context.coordinator.lastZoomLevel = viewModel.currentZoomLevel
+        }
+        
         refresh(map)
     }
 
@@ -71,6 +80,7 @@ struct MapKitView: UIViewRepresentable {
     final class Coordinator: NSObject, MKMapViewDelegate {
         var parent: MapKitView
         var isInitialLoad = true
+        var lastZoomLevel: Double = 0.02
         init(_ parent: MapKitView) { self.parent = parent }
 
         @objc func handleTap(_ gesture: UITapGestureRecognizer) {

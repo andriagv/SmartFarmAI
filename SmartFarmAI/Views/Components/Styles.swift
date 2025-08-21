@@ -29,7 +29,7 @@ struct PillButton: View {
                     .stroke(isActive ? Color.green : Color.green.opacity(0.4), lineWidth: isActive ? 2 : 1)
             )
             .cornerRadius(22)
-            .shadow(color: Color.black.opacity(0.06), radius: 4, x: 0, y: 2)
+            .shadow(color: Color.black.opacity(0.15), radius: 6, x: 0, y: 3)
         }
         .buttonStyle(PressableButtonStyle())
     }

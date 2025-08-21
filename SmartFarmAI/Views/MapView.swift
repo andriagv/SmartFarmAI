@@ -7,11 +7,34 @@ struct MapView: View {
     @StateObject private var loc = LocationService.shared
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
+        ZStack {
             MapKitView(viewModel: vm, mode: mode)
                 .ignoresSafeArea()
-            tools
-                .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0)
+            
+            // Top-left corner: Marker button
+            VStack {
+                HStack {
+                    PillButton(title: "Marker", systemImage: "mappin.and.ellipse", isActive: mode == .marker) { mode = .marker }
+                    Spacer()
+                }
+                Spacer()
+            }
+            .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0)
+            .padding(.leading, 16)
+            .padding(.top, 16)
+            
+            // Top-right corner: Clear button
+            VStack {
+                HStack {
+                    Spacer()
+                    PillButton(title: "Clear", systemImage: "xmark.circle", isActive: false) { vm.markers.removeAll(); vm.polygon.removeAll() }
+                }
+                Spacer()
+            }
+            .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0)
+            .padding(.trailing, 16)
+            .padding(.top, 16)
+            
             NavigationLink(destination: FieldAnalysisView(vm: vm), isActive: $navigateToAnalysis) { EmptyView() }
         }
         .overlay(alignment: .bottom) {
@@ -29,13 +52,7 @@ struct MapView: View {
         }
     }
 
-    private var tools: some View {
-        HStack(spacing: 10) {
-            PillButton(title: "Marker", systemImage: "mappin.and.ellipse", isActive: mode == .marker) { mode = .marker }
-            PillButton(title: "Clear", systemImage: "xmark.circle", isActive: false) { vm.markers.removeAll(); vm.polygon.removeAll() }
-        }
-        .padding()
-    }
+
 
     private var doneBar: some View {
         VStack(spacing: 10) {

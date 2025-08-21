@@ -32,14 +32,8 @@ struct MapView: View {
     private var tools: some View {
         HStack(spacing: 10) {
             PillButton(title: "Marker", systemImage: "mappin.and.ellipse", isActive: mode == .marker) { mode = .marker }
-            PillButton(title: "Polygon", systemImage: "triangle", isActive: mode == .polygon) { mode = .polygon }
-            PillButton(title: "Rectangle", systemImage: "rectangle", isActive: mode == .rectangle) { mode = .rectangle }
             PillButton(title: "Clear", systemImage: "xmark.circle", isActive: false) { vm.markers.removeAll(); vm.polygon.removeAll() }
         }
-        .padding(10)
-        .background(Color.white.opacity(0.92))
-        .cornerRadius(22)
-        .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 6)
         .padding()
     }
 

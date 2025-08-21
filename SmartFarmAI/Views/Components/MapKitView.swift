@@ -109,11 +109,12 @@ struct MapKitView: UIViewRepresentable {
 
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             if annotation is MKUserLocation { return nil }
-            let id = "marker"
-            let view = (mapView.dequeueReusableAnnotationView(withIdentifier: id) as? MKMarkerAnnotationView) ?? MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: id)
+            let id = "farmMarker"
+            let view = (mapView.dequeueReusableAnnotationView(withIdentifier: id) as? MKAnnotationView) ?? MKAnnotationView(annotation: annotation, reuseIdentifier: id)
             view.canShowCallout = false
             view.isDraggable = true
-            view.markerTintColor = .systemGreen
+            view.image = farmPinImage()
+            view.centerOffset = CGPoint(x: 0, y: -12)
             return view
         }
 
@@ -133,6 +134,20 @@ struct MapKitView: UIViewRepresentable {
 final class DraggableAnnotation: MKPointAnnotation {
     let index: Int
     init(index: Int) { self.index = index; super.init() }
+}
+
+private func farmPinImage() -> UIImage? {
+    let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .bold)
+    let base = UIImage(systemName: "leaf.fill", withConfiguration: config)?.withTintColor(.white, renderingMode: .alwaysOriginal)
+    let size = CGSize(width: 32, height: 40)
+    let renderer = UIGraphicsImageRenderer(size: size)
+    return renderer.image { ctx in
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        let path = UIBezierPath(roundedRect: rect, cornerRadius: 16)
+        UIColor.systemGreen.setFill(); path.fill()
+        base?.draw(in: CGRect(x: 7, y: 8, width: 18, height: 18))
+        UIColor.white.setStroke(); UIBezierPath(rect: rect).stroke()
+    }
 }
 
 

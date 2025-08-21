@@ -30,22 +30,26 @@ struct MapView: View {
     }
 
     private var tools: some View {
-        HStack(spacing: 8) {
-            Button("Marker") { mode = .marker }
-            Button("Polygon") { mode = .polygon }
-            Button("Rectangle") { mode = .rectangle }
-            Button("Clear") { vm.markers.removeAll(); vm.polygon.removeAll() }
+        HStack(spacing: 10) {
+            PillButton(title: "Marker", systemImage: "mappin.and.ellipse", isActive: mode == .marker) { mode = .marker }
+            PillButton(title: "Polygon", systemImage: "triangle", isActive: mode == .polygon) { mode = .polygon }
+            PillButton(title: "Rectangle", systemImage: "rectangle", isActive: mode == .rectangle) { mode = .rectangle }
+            PillButton(title: "Clear", systemImage: "xmark.circle", isActive: false) { vm.markers.removeAll(); vm.polygon.removeAll() }
         }
-        .padding(8)
-        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 10))
+        .padding(10)
+        .background(Color.white.opacity(0.92))
+        .cornerRadius(22)
+        .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 6)
         .padding()
     }
 
     private var doneBar: some View {
         VStack(spacing: 10) {
             Text("Click to place markers, draw to outline your field")
-                .font(.footnote)
-                .foregroundColor(.secondary)
+                .font(.callout.weight(.semibold))
+                .padding(8)
+                .background(Color.white.opacity(0.9))
+                .cornerRadius(10)
             Button(action: {
                 if vm.markers.count < 1 && vm.polygon.count < 3 {
                     showSelectAlert()
@@ -53,10 +57,16 @@ struct MapView: View {
                     navigateToAnalysis = true
                 }
             }) {
-                Text("DONE").frame(maxWidth: .infinity)
+                Text("DONE")
+                    .font(.headline)
+                    .padding(.vertical, 12)
+                    .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.borderedProminent)
-            .tint(.green)
+            .buttonStyle(PressableButtonStyle())
+            .background(LinearGradient.farmGreen)
+            .foregroundColor(.white)
+            .cornerRadius(14)
+            .shadow(color: Color.black.opacity(0.12), radius: 6, x: 0, y: 4)
         }
         .padding(10)
         .background(Color(.systemGray6))

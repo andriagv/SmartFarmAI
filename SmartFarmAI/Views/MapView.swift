@@ -16,6 +16,7 @@ struct MapView: View {
         }
         .overlay(alignment: .bottom) {
             doneBar
+                .padding(.horizontal, 16)
                 .padding(.bottom, 80)
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -41,8 +42,10 @@ struct MapView: View {
     }
 
     private var doneBar: some View {
-        VStack(spacing: 6) {
-            Text("Click to place markers, draw to outline your field").font(.footnote).foregroundColor(.secondary)
+        VStack(spacing: 10) {
+            Text("Click to place markers, draw to outline your field")
+                .font(.footnote)
+                .foregroundColor(.secondary)
             Button(action: {
                 if vm.markers.count < 1 && vm.polygon.count < 3 {
                     showSelectAlert()
@@ -53,12 +56,11 @@ struct MapView: View {
                 Text("DONE").frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
+            .tint(.green)
         }
-        .padding(.horizontal)
-        .padding(.vertical, 10)
+        .padding(10)
         .background(Color(.systemGray6))
         .cornerRadius(14)
-        .shadow(radius: 2)
     }
 
     private func showSelectAlert() {

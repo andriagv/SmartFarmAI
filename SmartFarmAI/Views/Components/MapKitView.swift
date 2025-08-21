@@ -4,6 +4,7 @@ import MapKit
 enum DrawingMode {
     case marker
     case polygon
+    case rectangle
 }
 
 struct MapKitView: UIViewRepresentable {
@@ -16,10 +17,9 @@ struct MapKitView: UIViewRepresentable {
         let map = MKMapView(frame: .zero)
         map.delegate = context.coordinator
         map.isRotateEnabled = false
-        map.region = MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194),
-            span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
-        )
+        map.showsUserLocation = true
+        let center = viewModel.mapCenter ?? CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)
+        map.region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02))
         let tap = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleTap(_:)))
         map.addGestureRecognizer(tap)
         return map
@@ -27,19 +27,33 @@ struct MapKitView: UIViewRepresentable {
 
     func updateUIView(_ map: MKMapView, context: Context) {
         context.coordinator.parent = self
+        if let center = viewModel.mapCenter {
+            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+            map.setRegion(region, animated: true)
+        }
         refresh(map)
     }
 
     fileprivate func refresh(_ map: MKMapView) {
         map.removeAnnotations(map.annotations)
         map.removeOverlays(map.overlays)
-        for coord in viewModel.markers {
-            let ann = MKPointAnnotation()
+        for (i, coord) in viewModel.markers.enumerated() {
+            let ann = DraggableAnnotation(index: i)
             ann.coordinate = coord
+            ann.title = "corner-\(i)"
             map.addAnnotation(ann)
         }
-        if viewModel.polygon.count >= 2 {
+        let polygonCoords: [CLLocationCoordinate2D]
+        if !viewModel.polygon.isEmpty {
+            polygonCoords = viewModel.polygon
+        } else if viewModel.markers.count >= 3 {
+            polygonCoords = viewModel.markers
+        } else {
+            polygonCoords = []
+        }
+        if polygonCoords.count >= 2 {
             var coords = viewModel.polygon
+            if coords.isEmpty { coords = polygonCoords }
             coords.withUnsafeMutableBufferPointer { buf in
                 if let base = buf.baseAddress {
                     let poly = MKPolygon(coordinates: base, count: buf.count)
@@ -62,6 +76,18 @@ struct MapKitView: UIViewRepresentable {
                 parent.viewModel.markers.append(coord)
             case .polygon:
                 parent.viewModel.polygon.append(coord)
+            case .rectangle:
+                if parent.viewModel.markers.isEmpty {
+                    // Seed 4-corner rectangle around tapped point
+                    let dLat = 0.003, dLon = 0.003
+                    parent.viewModel.markers = [
+                        CLLocationCoordinate2D(latitude: coord.latitude + dLat, longitude: coord.longitude - dLon),
+                        CLLocationCoordinate2D(latitude: coord.latitude + dLat, longitude: coord.longitude + dLon),
+                        CLLocationCoordinate2D(latitude: coord.latitude - dLat, longitude: coord.longitude + dLon),
+                        CLLocationCoordinate2D(latitude: coord.latitude - dLat, longitude: coord.longitude - dLon)
+                    ]
+                    parent.viewModel.polygon = parent.viewModel.markers
+                }
             }
             parent.refresh(map)
         }
@@ -76,7 +102,33 @@ struct MapKitView: UIViewRepresentable {
             }
             return MKOverlayRenderer(overlay: overlay)
         }
+
+        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            if annotation is MKUserLocation { return nil }
+            let id = "marker"
+            let view = (mapView.dequeueReusableAnnotationView(withIdentifier: id) as? MKMarkerAnnotationView) ?? MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: id)
+            view.canShowCallout = false
+            view.isDraggable = true
+            view.markerTintColor = .systemGreen
+            return view
+        }
+
+        func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
+            guard newState == .ending || newState == .canceling, let ann = view.annotation as? DraggableAnnotation else { return }
+            if ann.index < parent.viewModel.markers.count {
+                parent.viewModel.markers[ann.index] = ann.coordinate
+                if parent.mode == .rectangle || parent.viewModel.markers.count >= 3 {
+                    parent.viewModel.polygon = parent.viewModel.markers
+                }
+                parent.refresh(mapView)
+            }
+        }
     }
+}
+
+final class DraggableAnnotation: MKPointAnnotation {
+    let index: Int
+    init(index: Int) { self.index = index; super.init() }
 }
 
 

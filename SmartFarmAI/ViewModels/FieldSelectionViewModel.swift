@@ -4,6 +4,8 @@ import CoreLocation
 final class FieldSelectionViewModel: ObservableObject {
     @Published var markers: [CLLocationCoordinate2D] = []
     @Published var polygon: [CLLocationCoordinate2D] = []
+    @Published var mapCenter: CLLocationCoordinate2D?
+    @Published var userLocation: CLLocationCoordinate2D?
 
     func update(markers: [[Double]], polygon: [[Double]]) {
         self.markers = markers.map { CLLocationCoordinate2D(latitude: $0[0], longitude: $0[1]) }

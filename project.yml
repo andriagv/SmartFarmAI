@@ -33,6 +33,7 @@ targets:
         UIUserInterfaceStyle: Automatic
         NSCameraUsageDescription: Camera used to scan plants for disease detection.
         NSPhotoLibraryAddUsageDescription: Save exported reports to your photo library.
+        NSLocationWhenInUseUsageDescription: Map centers on your current location.
   SmartFarmAITests:
     type: bundle.unit-test
     platform: iOS

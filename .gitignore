@@ -29,4 +29,50 @@ fastlane/test_output
 # XcodeGen outputs (do not commit .xcodeproj if using XcodeGen)
 SmartFarmAI.xcodeproj/
 
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Machine Learning Models and Data
+
+
+# Large data files
+
+*.json
+*.parquet
+*.feather
+*.xlsx
+*.xls
+
+
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+
 

@@ -35,6 +35,14 @@ struct ContentView: View {
             }
 
             NavigationStack {
+                MapView()
+                    .navigationTitle("Map")
+            }
+            .tabItem {
+                Label("Map", systemImage: "map")
+            }
+
+            NavigationStack {
                 OptimizationView()
                     .navigationTitle("Water & Fertilizer")
             }

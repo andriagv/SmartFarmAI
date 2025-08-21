@@ -23,11 +23,18 @@ struct MapView: View {
             .padding(.leading, 16)
             .ignoresSafeArea()
             
-            // Top-right corner: Clear button
+            // Top-right corner: Clear and Location buttons
             VStack {
                 HStack {
                     Spacer()
-                    PillButton(title: "Clear", systemImage: "xmark.circle", isActive: false) { vm.markers.removeAll(); vm.polygon.removeAll() }
+                    VStack(spacing: 8) {
+                        PillButton(title: "My Location", systemImage: "location.fill", isActive: false) {
+                            if let userLoc = vm.userLocation {
+                                vm.mapCenter = userLoc
+                            }
+                        }
+                        PillButton(title: "Clear", systemImage: "xmark.circle", isActive: false) { vm.markers.removeAll(); vm.polygon.removeAll() }
+                    }
                 }
                 Spacer()
             }
@@ -45,10 +52,15 @@ struct MapView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .navigationBar)
         .onAppear {
-            loc.requestWhenInUse()
+            if vm.mapCenter == nil {
+                loc.requestWhenInUse()
+            }
         }
-        .onReceive(loc.$lastLocation) { loc in
-            if let loc = loc { vm.mapCenter = loc.coordinate; vm.userLocation = loc.coordinate }
+        .onReceive(loc.$lastLocation) { location in
+            if let location = location, vm.mapCenter == nil {
+                vm.mapCenter = location.coordinate
+                vm.userLocation = location.coordinate
+            }
         }
     }
 

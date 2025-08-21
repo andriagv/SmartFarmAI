@@ -31,9 +31,10 @@ struct MapKitView: UIViewRepresentable {
 
     func updateUIView(_ map: MKMapView, context: Context) {
         context.coordinator.parent = self
-        if let center = viewModel.mapCenter {
+        if let center = viewModel.mapCenter, context.coordinator.isInitialLoad {
             let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
             map.setRegion(region, animated: true)
+            context.coordinator.isInitialLoad = false
         }
         refresh(map)
     }
@@ -69,6 +70,7 @@ struct MapKitView: UIViewRepresentable {
 
     final class Coordinator: NSObject, MKMapViewDelegate {
         var parent: MapKitView
+        var isInitialLoad = true
         init(_ parent: MapKitView) { self.parent = parent }
 
         @objc func handleTap(_ gesture: UITapGestureRecognizer) {

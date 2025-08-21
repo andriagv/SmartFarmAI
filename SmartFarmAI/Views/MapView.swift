@@ -12,8 +12,11 @@ struct MapView: View {
                 .ignoresSafeArea()
             tools
                 .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0)
-            VStack { Spacer(); doneBar }.ignoresSafeArea(edges: .bottom)
             NavigationLink(destination: FieldAnalysisView(vm: vm), isActive: $navigateToAnalysis) { EmptyView() }
+        }
+        .overlay(alignment: .bottom) {
+            doneBar
+                .padding(.bottom, 80)
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .navigationBar)
@@ -51,8 +54,11 @@ struct MapView: View {
             }
             .buttonStyle(.borderedProminent)
         }
-        .padding()
-        .background(.ultraThinMaterial)
+        .padding(.horizontal)
+        .padding(.vertical, 10)
+        .background(Color(.systemGray6))
+        .cornerRadius(14)
+        .shadow(radius: 2)
     }
 
     private func showSelectAlert() {

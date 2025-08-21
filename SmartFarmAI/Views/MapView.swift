@@ -21,7 +21,7 @@ struct MapView: View {
             }
             .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0)
             .padding(.leading, 16)
-            .padding(.top, 16)
+            .ignoresSafeArea()
             
             // Top-right corner: Clear button
             VStack {
@@ -33,14 +33,14 @@ struct MapView: View {
             }
             .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0)
             .padding(.trailing, 16)
-            .padding(.top, 16)
+            .ignoresSafeArea()
             
             NavigationLink(destination: FieldAnalysisView(vm: vm), isActive: $navigateToAnalysis) { EmptyView() }
         }
         .overlay(alignment: .bottom) {
             doneBar
                 .padding(.horizontal, 16)
-                .padding(.bottom, 80)
+                .padding(.bottom, 40)
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .navigationBar)
@@ -56,11 +56,6 @@ struct MapView: View {
 
     private var doneBar: some View {
         VStack(spacing: 10) {
-            Text("Click to place markers, draw to outline your field")
-                .font(.callout.weight(.semibold))
-                .padding(8)
-                .background(Color.white.opacity(0.9))
-                .cornerRadius(10)
             Button(action: {
                 if vm.markers.count < 1 && vm.polygon.count < 3 {
                     showSelectAlert()
@@ -80,7 +75,6 @@ struct MapView: View {
             .shadow(color: Color.black.opacity(0.12), radius: 6, x: 0, y: 4)
         }
         .padding(10)
-        .background(Color(.systemGray6))
         .cornerRadius(14)
     }
 

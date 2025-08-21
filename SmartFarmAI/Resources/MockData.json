@@ -1,0 +1,12 @@
+{
+  "weather": [
+    { "date": "2025-01-01T00:00:00Z", "temperatureC": 12.2, "precipitationMm": 5.0, "humidity": 0.62 },
+    { "date": "2025-01-02T00:00:00Z", "temperatureC": 13.5, "precipitationMm": 0.0, "humidity": 0.55 }
+  ],
+  "treatments": [
+    { "name": "Powdery Mildew", "treatment": "Apply sulfur-based fungicide; ensure airflow." },
+    { "name": "Early Blight", "treatment": "Remove affected leaves; apply chlorothalonil." }
+  ]
+}
+
+

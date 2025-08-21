@@ -1,0 +1,32 @@
+# Xcode
+DerivedData/
+build/
+*.xcworkspace/
+*.xcuserdatad/
+*.xcuserstate
+*.xccheckout
+*.moved-aside
+
+# Swift Package Manager
+.build/
+Package.resolved
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# macOS
+.DS_Store
+
+# XcodeGen outputs (do not commit .xcodeproj if using XcodeGen)
+SmartFarmAI.xcodeproj/
+
+

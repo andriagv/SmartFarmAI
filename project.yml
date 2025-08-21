@@ -1,0 +1,37 @@
+name: SmartFarmAI
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    iOS: "16.0"
+targets:
+  SmartFarmAI:
+    type: application
+    platform: iOS
+    sources:
+      - path: SmartFarmAI
+    resources:
+      - path: SmartFarmAI/Resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.SmartFarmAI
+        SWIFT_VERSION: 5.0
+        IPHONEOS_DEPLOYMENT_TARGET: 16.0
+    info:
+      path: SmartFarmAI/Resources/Info.plist
+      properties:
+        CFBundleName: SmartFarmAI
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UIUserInterfaceStyle: Automatic
+        NSCameraUsageDescription: Camera used to scan plants for disease detection.
+        NSPhotoLibraryAddUsageDescription: Save exported reports to your photo library.
+  SmartFarmAITests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: SmartFarmAI/Tests
+    dependencies:
+      - target: SmartFarmAI
+
+

@@ -7,14 +7,16 @@ struct MapView: View {
     @StateObject private var loc = LocationService.shared
 
     var body: some View {
-        VStack(spacing: 0) {
+        ZStack(alignment: .topLeading) {
             MapKitView(viewModel: vm, mode: mode)
-                .ignoresSafeArea(edges: .bottom)
-                .overlay(alignment: .topLeading) { tools }
-                .overlay(alignment: .bottom) { doneBar }
+                .ignoresSafeArea()
+            tools
+                .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0)
+            VStack { Spacer(); doneBar }.ignoresSafeArea(edges: .bottom)
             NavigationLink(destination: FieldAnalysisView(vm: vm), isActive: $navigateToAnalysis) { EmptyView() }
         }
-        .navigationTitle("Map")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .navigationBar)
         .onAppear {
             loc.requestWhenInUse()
         }
@@ -38,13 +40,28 @@ struct MapView: View {
     private var doneBar: some View {
         VStack(spacing: 6) {
             Text("Click to place markers, draw to outline your field").font(.footnote).foregroundColor(.secondary)
-            Button(action: { navigateToAnalysis = true }) {
+            Button(action: {
+                if vm.markers.count < 1 && vm.polygon.count < 3 {
+                    showSelectAlert()
+                } else {
+                    navigateToAnalysis = true
+                }
+            }) {
                 Text("DONE").frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
         }
         .padding()
         .background(.ultraThinMaterial)
+    }
+
+    private func showSelectAlert() {
+        let alert = UIAlertController(title: nil, message: "მონიშნე მიწის ნაკვეთი", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .first?.keyWindow?.rootViewController?
+            .present(alert, animated: true)
     }
 }
 

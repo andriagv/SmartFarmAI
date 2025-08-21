@@ -17,10 +17,14 @@ struct MapKitView: UIViewRepresentable {
         let map = MKMapView(frame: .zero)
         map.delegate = context.coordinator
         map.isRotateEnabled = false
+        map.isZoomEnabled = true
+        map.isScrollEnabled = true
         map.showsUserLocation = true
         let center = viewModel.mapCenter ?? CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)
         map.region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02))
         let tap = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleTap(_:)))
+        tap.numberOfTapsRequired = 1
+        tap.cancelsTouchesInView = false
         map.addGestureRecognizer(tap)
         return map
     }

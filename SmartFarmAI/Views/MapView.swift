@@ -28,12 +28,12 @@ struct MapView: View {
                 HStack {
                     Spacer()
                     VStack(spacing: 8) {
-                        PillButton(title: "My Location", systemImage: "location.fill", isActive: false) {
-                            if let userLoc = vm.userLocation {
-                                vm.mapCenter = userLoc
-                            }
-                        }
                         PillButton(title: "Clear", systemImage: "xmark.circle", isActive: false) { vm.markers.removeAll(); vm.polygon.removeAll() }
+                        // PillButton(title: "My Location", systemImage: "location.fill", isActive: false) {
+                        //     if let userLoc = vm.userLocation {
+                        //         vm.mapCenter = userLoc
+                        //     }
+                        // }
                     }
                 }
                 Spacer()

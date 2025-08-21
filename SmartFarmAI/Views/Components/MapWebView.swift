@@ -33,4 +33,8 @@ struct MapWebView: UIViewRepresentable {
     }
 }
 
+#Preview() {
+    MapView()
+}
+
 

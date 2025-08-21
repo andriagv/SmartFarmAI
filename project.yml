@@ -11,6 +11,13 @@ targets:
       - path: SmartFarmAI
     resources:
       - path: SmartFarmAI/Resources
+      - path: SmartFarmAI/Views/Components/MapWebView.html
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.SmartFarmAI
+        SWIFT_VERSION: 5.0
+        IPHONEOS_DEPLOYMENT_TARGET: 16.0
+        ENABLE_USER_SCRIPT_SANDBOXING: NO
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.SmartFarmAI

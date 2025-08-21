@@ -20,6 +20,8 @@
 	<string>1</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera used to scan plants for disease detection.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Map centers on your current location.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Save exported reports to your photo library.</string>
 	<key>UILaunchScreen</key>

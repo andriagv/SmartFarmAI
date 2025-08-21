@@ -6,7 +6,7 @@ struct MapWebView: UIViewRepresentable {
 
     func makeCoordinator() -> Coordinator { Coordinator(self) }
 
-    func makeUIView(_ context: Context) -> WKWebView {
+    func makeUIView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
         config.userContentController.add(context.coordinator, name: "mapBridge")
         let webView = WKWebView(frame: .zero, configuration: config)

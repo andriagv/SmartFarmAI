@@ -14,6 +14,8 @@ final class YieldPredictionViewModel: ObservableObject {
     @Published var recommendations: [Recommendation] = []
     @Published var formErrorMessage: String?
     @Published var currentPlan: FarmPlan?
+    @Published var showPlanGeneratedToast = false
+    @Published var planGeneratedMessage = ""
 
     var isFormValid: Bool {
         Double(farmSizeText) != nil && soilQuality >= 1 && soilQuality <= 5
@@ -71,7 +73,12 @@ final class YieldPredictionViewModel: ObservableObject {
             calendar.date(byAdding: .weekOfYear, value: offset * 3, to: today)
         }
         // Build a plan object and persist
-        guard let size = Double(farmSizeText) else { return }
+        guard let size = Double(farmSizeText) else { 
+            planGeneratedMessage = "Please enter a valid farm size"
+            showPlanGeneratedToast = true
+            return 
+        }
+        
         let plan = FarmPlan(
             id: UUID(),
             crop: selectedCrop,
@@ -84,6 +91,14 @@ final class YieldPredictionViewModel: ObservableObject {
         )
         currentPlan = plan
         CoreDataStack.shared.savePlan(plan)
+        
+        planGeneratedMessage = "Farm plan generated successfully! \(selectedCrop.displayName) plan saved."
+        showPlanGeneratedToast = true
+        
+        // Hide toast after 3 seconds
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [self] in
+            showPlanGeneratedToast = false
+        }
     }
 
     func exportCSV() -> URL? {

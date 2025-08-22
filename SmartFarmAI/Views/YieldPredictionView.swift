@@ -20,6 +20,11 @@ struct YieldPredictionView: View {
                 if let prediction = viewModel.predictionResult {
                     resultsSection(prediction)
                 }
+                
+                // Generate Plan Button (always visible if form is valid)
+                if viewModel.isFormValid {
+                    generatePlanSection
+                }
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
@@ -41,6 +46,17 @@ struct YieldPredictionView: View {
             RegionPickerView(selectedRegion: $viewModel.selectedRegion, regions: viewModel.regions)
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
+        .overlay(
+            // Toast Notification
+            VStack {
+                if viewModel.showPlanGeneratedToast {
+                    ToastNotification(message: viewModel.planGeneratedMessage)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                }
+                Spacer()
+            }
+            .animation(.easeInOut(duration: 0.3), value: viewModel.showPlanGeneratedToast)
+        )
     }
 
     // MARK: - Header Section
@@ -285,6 +301,50 @@ struct YieldPredictionView: View {
             }
             .buttonStyle(PressableButtonStyle())
             .disabled(!viewModel.isFormValid)
+        }
+        .premiumCard(elevation: 4)
+        .opacity(animateForm ? 1 : 0)
+        .offset(y: animateForm ? 0 : 30)
+    }
+
+    // MARK: - Generate Plan Section
+    private var generatePlanSection: some View {
+        VStack(spacing: 16) {
+            HStack {
+                Text("📋 Farm Planning")
+                    .font(.premiumHeadline(20))
+                    .foregroundColor(Color.textPrimary)
+                Spacer()
+            }
+            
+            Button(action: { viewModel.generatePlan() }) {
+                HStack(spacing: 12) {
+                    Image(systemName: "calendar.badge.plus")
+                        .font(.system(size: 20, weight: .medium))
+                    Text("Generate Farm Plan")
+                        .font(.premiumHeadline(18))
+                        .fontWeight(.semibold)
+                }
+                .foregroundColor(Color.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(LinearGradient.accentGradient)
+                )
+                .shadow(
+                    color: Color.accentBlue.opacity(0.3),
+                    radius: 8,
+                    x: 0,
+                    y: 4
+                )
+            }
+            .buttonStyle(PressableButtonStyle())
+            
+            Text("Create a comprehensive farming plan based on your inputs")
+                .font(.premiumCaption(14))
+                .foregroundColor(Color.textSecondary)
+                .multilineTextAlignment(.center)
         }
         .premiumCard(elevation: 4)
         .opacity(animateForm ? 1 : 0)

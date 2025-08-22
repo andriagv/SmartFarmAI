@@ -57,7 +57,8 @@ struct ContentView: View {
                 Label("Settings", systemImage: "gear")
             }
         }
-        .tint(.green)
+        .tint(Color.accentBlue) // Sky blue color for tab bar
+        .preferredColorScheme(.light) // Force light mode
     }
 }
 

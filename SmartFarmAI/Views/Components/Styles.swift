@@ -110,7 +110,7 @@ struct PremiumButtonModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .font(.system(size: 16, weight: .semibold, design: .default))
+            .font(.premiumBody(16).weight(.semibold))
             .foregroundColor(foregroundColor)
             .padding(.horizontal, 20)
             .padding(.vertical, 12)
@@ -163,7 +163,7 @@ struct StatusIndicatorModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .foregroundColor(statusColor)
-            .font(.system(size: 14, weight: .medium))
+            .font(.premiumCaption(14).weight(.medium))
     }
     
     private var statusColor: Color {
@@ -196,9 +196,9 @@ struct PremiumPillButton: View {
         Button(action: action) {
             HStack(spacing: 8) {
                 Image(systemName: systemImage)
-                    .font(.system(size: 16, weight: .medium))
+                    .font(.premiumBody(16).weight(.medium))
                 Text(title)
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.premiumBody(16).weight(.semibold))
             }
             .foregroundColor(isActive ? Color.primaryGreen : Color.textSecondary)
             .padding(.horizontal, 16)
@@ -248,19 +248,40 @@ extension View {
 // MARK: - Typography Extensions
 extension Font {
     static func premiumTitle(_ size: CGFloat = 24) -> Font {
-        .system(size: size, weight: .bold, design: .default)
+        .custom("SF Pro Display", size: size, relativeTo: .largeTitle)
+            .weight(.bold)
     }
     
     static func premiumHeadline(_ size: CGFloat = 20) -> Font {
-        .system(size: size, weight: .semibold, design: .default)
+        .custom("SF Pro Display", size: size, relativeTo: .title2)
+            .weight(.semibold)
     }
     
     static func premiumBody(_ size: CGFloat = 16) -> Font {
-        .system(size: size, weight: .medium, design: .default)
+        .custom("SF Pro Text", size: size, relativeTo: .body)
+            .weight(.medium)
     }
     
     static func premiumCaption(_ size: CGFloat = 14) -> Font {
-        .system(size: size, weight: .regular, design: .default)
+        .custom("SF Pro Text", size: size, relativeTo: .caption)
+            .weight(.regular)
+    }
+    
+    // Alternative premium fonts if SF Pro is not available
+    static func premiumTitleAlt(_ size: CGFloat = 24) -> Font {
+        .system(size: size, weight: .bold, design: .rounded)
+    }
+    
+    static func premiumHeadlineAlt(_ size: CGFloat = 20) -> Font {
+        .system(size: size, weight: .semibold, design: .rounded)
+    }
+    
+    static func premiumBodyAlt(_ size: CGFloat = 16) -> Font {
+        .system(size: size, weight: .medium, design: .rounded)
+    }
+    
+    static func premiumCaptionAlt(_ size: CGFloat = 14) -> Font {
+        .system(size: size, weight: .regular, design: .rounded)
     }
 }
 

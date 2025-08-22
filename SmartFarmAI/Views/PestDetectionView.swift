@@ -290,29 +290,6 @@ struct PestDetectionView: View {
                     .font(.premiumBody(14))
                     .foregroundColor(Color.textPrimary)
                     .multilineTextAlignment(.leading)
-                
-                // Done Button
-                HStack {
-                    Spacer()
-                    Button("Done") {
-                        viewModel.dismissLastResult()
-                    }
-                    .font(.premiumBody(16))
-                    .fontWeight(.semibold)
-                    .foregroundColor(Color.white)
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 12)
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(LinearGradient.accentGradient)
-                    )
-                    .shadow(
-                        color: Color.accentBlue.opacity(0.3),
-                        radius: 4,
-                        x: 0,
-                        y: 2
-                    )
-                }
             }
         }
         .premiumCard(elevation: 4)

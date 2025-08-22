@@ -440,7 +440,7 @@ struct YieldPredictionView: View {
                 .buttonStyle(PressableButtonStyle())
                 
                 Button(action: {
-                    if let url = viewModel.exportCSV() { share(url: url) }
+                if let url = viewModel.exportCSV() { share(url: url) }
                 }) {
                     HStack(spacing: 8) {
                         Image(systemName: "square.and.arrow.up")

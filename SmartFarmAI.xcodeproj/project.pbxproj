@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -75,7 +75,7 @@
 		6D5AB0ADD6980C4BC29FADC0 /* MockData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockData.json; sourceTree = "<group>"; };
 		758DC306B8743A153F12AA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7AAB0B87FB42AA449AE8E98A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		81F300CD4AE25852DA3A6C60 /* SmartFarmAI.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SmartFarmAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		81F300CD4AE25852DA3A6C60 /* SmartFarmAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartFarmAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8285234EFACA4C76D8339C24 /* MapWebView.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = MapWebView.html; sourceTree = "<group>"; };
 		85D1EC76106D41ED6134C25E /* FieldSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldSelectionViewModel.swift; sourceTree = "<group>"; };
 		913560C8C51B9371FD0B443F /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
@@ -286,7 +286,6 @@
 			);
 			mainGroup = 44C9384217E16E1F7CB322E2;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -456,6 +455,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = QCGLP7ZKSQ;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = SmartFarmAI/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -532,6 +532,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = QCGLP7ZKSQ;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = SmartFarmAI/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;

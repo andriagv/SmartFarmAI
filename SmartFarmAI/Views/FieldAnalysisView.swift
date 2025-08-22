@@ -1,5 +1,4 @@
 import SwiftUI
-import Charts
 
 struct FieldAnalysisView: View {
     @ObservedObject var vm: FieldSelectionViewModel
@@ -33,27 +32,28 @@ struct FieldAnalysisView: View {
     private var analytics: some View {
         VStack(alignment: .leading, spacing: 16) {
             section(title: "Soil Moisture (30d)") {
-                Chart(Array(moisture.enumerated()), id: \.offset) { idx, val in
-                    LineMark(x: .value("Day", idx), y: .value("%", val))
-                        .foregroundStyle(.blue)
-                }.frame(height: 160)
+                Text("Chart placeholder - Soil moisture data")
+                    .frame(height: 160)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue.opacity(0.1))
             }
             section(title: "Temperature Trends") {
-                Chart(Array(temps.enumerated()), id: \.offset) { idx, tuple in
-                    BarMark(x: .value("Day", idx), y: .value("High", tuple.0)).foregroundStyle(.red)
-                    BarMark(x: .value("Day", idx), y: .value("Low", tuple.1)).foregroundStyle(.orange)
-                }.frame(height: 160)
+                Text("Chart placeholder - Temperature data")
+                    .frame(height: 160)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.red.opacity(0.1))
             }
             section(title: "Vegetation Health Index (NDVI)") {
-                Chart(Array(ndvi.enumerated()), id: \.offset) { idx, val in
-                    LineMark(x: .value("Day", idx), y: .value("NDVI", val))
-                        .foregroundStyle(.green)
-                }.frame(height: 160)
+                Text("Chart placeholder - NDVI data")
+                    .frame(height: 160)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.green.opacity(0.1))
             }
             section(title: "7-day Weather Forecast (mm)") {
-                Chart(Array(forecast.enumerated()), id: \.offset) { idx, val in
-                    BarMark(x: .value("Day", idx), y: .value("Rain", val)).foregroundStyle(.cyan)
-                }.frame(height: 160)
+                Text("Chart placeholder - Weather forecast")
+                    .frame(height: 160)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.cyan.opacity(0.1))
             }
             recommendations
         }

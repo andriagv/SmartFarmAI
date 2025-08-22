@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 // MARK: - Sensor Types
-enum SensorType: String, CaseIterable, Identifiable {
+enum SensorType: String, CaseIterable, Identifiable, Codable {
     case soilPh = "Soil pH"
     case optical = "Optical"
     case electrochemical = "Electrochemical"
@@ -198,7 +198,7 @@ class Sensor: Identifiable, ObservableObject {
 
 // MARK: - Optimization Recommendation
 struct OptimizationRecommendation: Identifiable, Codable {
-    let id = UUID()
+    var id = UUID()
     let category: String
     let title: String
     let description: String

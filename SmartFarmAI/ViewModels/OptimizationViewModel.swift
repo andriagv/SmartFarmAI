@@ -2,88 +2,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-// MARK: - Basic Sensor Types
-enum SensorType: String, CaseIterable, Identifiable {
-    case soilPh = "Soil pH"
-    case optical = "Optical"
-    case electrochemical = "Electrochemical"
-    case mechanical = "Mechanical"
-    case airFlow = "Air Flow"
-    case environmental = "Environmental"
-    case moisture = "Moisture"
-    case weather = "Weather"
-    
-    var id: String { rawValue }
-    
-    var icon: String {
-        switch self {
-        case .soilPh: return "🌡️"
-        case .optical: return "👁️"
-        case .electrochemical: return "⚗️"
-        case .mechanical: return "⚙️"
-        case .airFlow: return "💨"
-        case .environmental: return "🌤️"
-        case .moisture: return "💧"
-        case .weather: return "🌦️"
-        }
-    }
-    
-    var color: Color {
-        switch self {
-        case .soilPh: return .orange
-        case .optical: return .green
-        case .electrochemical: return .purple
-        case .mechanical: return .gray
-        case .airFlow: return .blue
-        case .environmental: return .cyan
-        case .moisture: return .blue
-        case .weather: return .indigo
-        }
-    }
-}
 
-// MARK: - Connection Status
-enum ConnectionStatus {
-    case disconnected
-    case connecting
-    case connected
-}
-
-// MARK: - Simple Sensor Model
-struct Sensor: Identifiable {
-    let id = UUID()
-    let type: SensorType
-    let name: String
-    var status: ConnectionStatus = .disconnected
-    var data: [String: Double] = [:]
-    
-    var isConnected: Bool {
-        return status == .connected
-    }
-}
-
-// MARK: - Basic Types for Simple Implementation
-struct OptimizationRecommendation: Identifiable, Codable {
-    let id = UUID()
-    let title: String
-    let description: String
-    let impact: String
-    let priority: Priority
-    
-    enum Priority: String, CaseIterable, Codable {
-        case high = "High"
-        case medium = "Medium"
-        case low = "Low"
-        
-        var color: Color {
-            switch self {
-            case .high: return .red
-            case .medium: return .orange
-            case .low: return .green
-            }
-        }
-    }
-}
 
 @MainActor
 final class OptimizationViewModel: ObservableObject {
@@ -118,71 +37,16 @@ final class OptimizationViewModel: ObservableObject {
     }
     
     func connectSensor(_ sensor: Sensor) {
-        guard let index = sensors.firstIndex(where: { $0.id == sensor.id }) else { return }
-        sensors[index].status = .connecting
+        sensor.connect()
         showToast(message: "Connecting to \(sensor.type.rawValue) sensor...")
-        
-        // Simulate connection delay
-        Task {
-            try await Task.sleep(nanoseconds: 2_500_000_000) // 2.5 seconds
-            await MainActor.run {
-                if index < sensors.count {
-                    sensors[index].status = .connected
-                    sensors[index].data = generateSampleData(for: sensor.type)
-                    showToast(message: "\(sensor.type.rawValue) sensor connected")
-                }
-            }
-        }
     }
     
     func disconnectSensor(_ sensor: Sensor) {
-        guard let index = sensors.firstIndex(where: { $0.id == sensor.id }) else { return }
-        sensors[index].status = .disconnected
-        sensors[index].data = [:]
+        sensor.disconnect()
         showToast(message: "\(sensor.type.rawValue) sensor disconnected")
     }
     
-    private func generateSampleData(for type: SensorType) -> [String: Double] {
-        switch type {
-        case .soilPh:
-            return ["pH": Double.random(in: 5.5...7.5)]
-        case .optical:
-            return [
-                "NDVI": Double.random(in: 0.3...0.8),
-                "Plant Health": Double.random(in: 60...95)
-            ]
-        case .electrochemical:
-            return [
-                "Nitrogen": Double.random(in: 15...45),
-                "Phosphorus": Double.random(in: 8...25),
-                "Potassium": Double.random(in: 12...35)
-            ]
-        case .mechanical:
-            return [
-                "Compaction": Double.random(in: 0.8...2.5),
-                "Resistance": Double.random(in: 5...20)
-            ]
-        case .airFlow:
-            return [
-                "Air Permeability": Double.random(in: 2...8),
-                "Oxygen Level": Double.random(in: 18...22)
-            ]
-        case .environmental:
-            return [
-                "Temperature": Double.random(in: 15...35),
-                "Humidity": Double.random(in: 40...85),
-                "CO2": Double.random(in: 350...450)
-            ]
-        case .moisture:
-            return ["Moisture": Double.random(in: 25...75)]
-        case .weather:
-            return [
-                "Wind Speed": Double.random(in: 2...15),
-                "Precipitation": Double.random(in: 0...10),
-                "Pressure": Double.random(in: 1000...1020)
-            ]
-        }
-    }
+
     
     private func showToast(message: String) {
         toastMessage = message
@@ -221,34 +85,49 @@ final class OptimizationViewModel: ObservableObject {
     private func generateRecommendations() {
         recommendations = [
             OptimizationRecommendation(
+                category: "Irrigation",
                 title: "Implement Precision Irrigation",
                 description: "Based on soil moisture data, implement variable rate irrigation to optimize water usage and improve crop yield by 15-20%.",
                 impact: "Improves water use efficiency by 20-30% and crop yield by 15-20%",
-                priority: .high
+                priority: .high,
+                estimatedCost: 25000.0,
+                estimatedSavings: 45000.0
             ),
             OptimizationRecommendation(
+                category: "Fertilization",
                 title: "Variable Rate Fertilization",
                 description: "Apply site-specific fertilization using sensor data for optimal nutrient distribution and reduced costs.",
                 impact: "Reduces fertilizer costs by 15-25% while improving crop response",
-                priority: .high
+                priority: .high,
+                estimatedCost: 15000.0,
+                estimatedSavings: 30000.0
             ),
             OptimizationRecommendation(
+                category: "Soil Management",
                 title: "Soil pH Adjustment",
                 description: "Apply agricultural lime to raise soil pH to optimal range (6.0-7.0) for better nutrient availability.",
                 impact: "Improves nutrient availability and crop yield by 15-25%",
-                priority: .medium
+                priority: .medium,
+                estimatedCost: 8000.0,
+                estimatedSavings: 20000.0
             ),
             OptimizationRecommendation(
+                category: "Tillage",
                 title: "Deep Tillage Operation",
                 description: "Perform deep tillage to improve root penetration and water infiltration in compacted areas.",
                 impact: "Improves crop root development and yield potential by 10-15%",
-                priority: .medium
+                priority: .medium,
+                estimatedCost: 12000.0,
+                estimatedSavings: 18000.0
             ),
             OptimizationRecommendation(
+                category: "Protection",
                 title: "Implement Wind Protection",
                 description: "Consider windbreaks or adjust irrigation timing to reduce evaporation and protect young crops.",
                 impact: "Reduces water loss and protects young crops",
-                priority: .low
+                priority: .low,
+                estimatedCost: 5000.0,
+                estimatedSavings: 8000.0
             )
         ]
     }

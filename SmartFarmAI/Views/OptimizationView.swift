@@ -1,5 +1,4 @@
 import SwiftUI
-import Charts
 
 struct OptimizationView: View {
     @StateObject private var viewModel = OptimizationViewModel()
@@ -358,21 +357,25 @@ struct PremiumSensorCard: View {
     @ObservedObject var viewModel: OptimizationViewModel
     
     private var statusText: String {
-        switch sensor.status {
+        switch sensor.connectionStatus {
         case .disconnected:
             return "🔴 Disconnected"
-        case .connecting:
-            return "🟡 Connecting..."
+        case .searching:
+            return "🟡 Searching..."
+        case .pairing:
+            return "🟡 Pairing..."
         case .connected:
             return "🟢 Connected"
         }
     }
     
     private var statusColor: Color {
-        switch sensor.status {
+        switch sensor.connectionStatus {
         case .disconnected:
             return Color.statusDisconnected
-        case .connecting:
+        case .searching:
+            return Color.accentOrange
+        case .pairing:
             return Color.accentOrange
         case .connected:
             return Color.statusConnected
@@ -380,11 +383,13 @@ struct PremiumSensorCard: View {
     }
     
     private var lastUpdateText: String {
-        switch sensor.status {
+        switch sensor.connectionStatus {
         case .disconnected:
             return "Never"
-        case .connecting:
-            return "Connecting..."
+        case .searching:
+            return "Searching..."
+        case .pairing:
+            return "Pairing..."
         case .connected:
             return "2 min ago"
         }
@@ -411,16 +416,17 @@ struct PremiumSensorCard: View {
                     Circle()
                         .fill(statusColor)
                         .frame(width: 8, height: 8)
-                        .scaleEffect(sensor.status == .connecting ? 1.2 : 1.0)
+                        .scaleEffect(sensor.connectionStatus == .searching || sensor.connectionStatus == .pairing ? 1.2 : 1.0)
                         .animation(
-                            sensor.status == .connecting ?
+                            sensor.connectionStatus == .searching || sensor.connectionStatus == .pairing ?
                             Animation.easeInOut(duration: 1.0).repeatForever(autoreverses: true) :
                             .default,
-                            value: sensor.status
+                            value: sensor.connectionStatus
                         )
                     
-                    Text(sensor.status == .disconnected ? "Disconnected" :
-                         sensor.status == .connecting ? "Connecting" : "Connected")
+                    Text(sensor.connectionStatus == .disconnected ? "Disconnected" :
+                         sensor.connectionStatus == .searching ? "Searching" :
+                         sensor.connectionStatus == .pairing ? "Pairing" : "Connected")
                         .font(.premiumCaption(14))
                         .fontWeight(.medium)
                         .foregroundColor(statusColor)
@@ -430,15 +436,15 @@ struct PremiumSensorCard: View {
                 HStack(spacing: 8) {
                     // Connect/Disconnect Button
                     Button(action: {
-                        if sensor.status == .connected {
+                        if sensor.connectionStatus == .connected {
                             viewModel.disconnectSensor(sensor)
-                        } else if sensor.status == .disconnected {
+                        } else if sensor.connectionStatus == .disconnected {
                             viewModel.connectSensor(sensor)
                         }
-                        // Do nothing if connecting
+                        // Do nothing if searching or pairing
                     }) {
-                        Text(sensor.status == .connected ? "Disconnect" :
-                             sensor.status == .connecting ? "Cancel" : "Connect")
+                        Text(sensor.connectionStatus == .connected ? "Disconnect" :
+                             sensor.connectionStatus == .searching || sensor.connectionStatus == .pairing ? "Cancel" : "Connect")
                             .font(.premiumCaption(14))
                             .fontWeight(.semibold)
                             .foregroundColor(Color.white)
@@ -447,11 +453,11 @@ struct PremiumSensorCard: View {
                             .frame(minWidth: 80)
                             .background(
                                 RoundedRectangle(cornerRadius: 20)
-                                    .fill(sensor.status == .connected ? Color.accentOrange : Color.statusConnected)
+                                    .fill(sensor.connectionStatus == .connected ? Color.accentOrange : Color.statusConnected)
                             )
                     }
                     .buttonStyle(PressableButtonStyle())
-                    .disabled(sensor.status == .connecting)
+                    .disabled(sensor.connectionStatus == .searching || sensor.connectionStatus == .pairing)
                     
                     // Remove Button
                     Button(action: {
@@ -481,7 +487,7 @@ struct PremiumSensorCard: View {
                     // Left border accent for connected sensors
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(
-                            sensor.status == .connected ? Color.statusConnected.opacity(0.3) : Color.clear,
+                            sensor.connectionStatus == .connected ? Color.statusConnected.opacity(0.3) : Color.clear,
                             lineWidth: 2
                         )
                 )

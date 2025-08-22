@@ -1,5 +1,4 @@
 import SwiftUI
-import Charts
 
 struct YieldPredictionView: View {
     @EnvironmentObject private var viewModel: YieldPredictionViewModel
@@ -60,19 +59,10 @@ struct YieldPredictionView: View {
         VStack(alignment: .leading) {
             Text("Predicted Yield")
                 .font(.headline)
-            Chart(result.monthlyYields) { point in
-                LineMark(
-                    x: .value("Month", point.month, unit: .month),
-                    y: .value("Tonnes", point.tonnes)
-                )
-                .foregroundStyle(.green)
-                AreaMark(
-                    x: .value("Month", point.month, unit: .month),
-                    y: .value("Tonnes", point.tonnes)
-                )
-                .foregroundStyle(.green.opacity(0.2))
-            }
-            .frame(height: 220)
+            Text("Chart placeholder - Yield prediction data")
+                .frame(height: 220)
+                .frame(maxWidth: .infinity)
+                .background(Color.green.opacity(0.1))
         }
         .padding()
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))

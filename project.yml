@@ -9,6 +9,8 @@ targets:
     platform: iOS
     sources:
       - path: SmartFarmAI
+        excludes:
+          - "Tests/**"
     resources:
       - path: SmartFarmAI/Resources
       - path: SmartFarmAI/Views/Components/MapWebView.html
@@ -18,11 +20,8 @@ targets:
         SWIFT_VERSION: 5.0
         IPHONEOS_DEPLOYMENT_TARGET: 16.0
         ENABLE_USER_SCRIPT_SANDBOXING: NO
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.SmartFarmAI
-        SWIFT_VERSION: 5.0
-        IPHONEOS_DEPLOYMENT_TARGET: 16.0
+        SUPPORTED_PLATFORMS: iphoneos iphonesimulator
+        TARGETED_DEVICE_FAMILY: 1,2
     info:
       path: SmartFarmAI/Resources/Info.plist
       properties:

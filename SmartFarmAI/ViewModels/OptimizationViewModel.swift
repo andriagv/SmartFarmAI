@@ -5,27 +5,39 @@ import Combine
 // MARK: - Basic Sensor Types
 enum SensorType: String, CaseIterable, Identifiable {
     case soilPh = "Soil pH"
-    case moisture = "Moisture"
-    case environmental = "Environmental"
     case optical = "Optical"
+    case electrochemical = "Electrochemical"
+    case mechanical = "Mechanical"
+    case airFlow = "Air Flow"
+    case environmental = "Environmental"
+    case moisture = "Moisture"
+    case weather = "Weather"
     
     var id: String { rawValue }
     
     var icon: String {
         switch self {
-        case .soilPh: return "drop.circle.fill"
-        case .moisture: return "humidity"
-        case .environmental: return "thermometer"
-        case .optical: return "eye.fill"
+        case .soilPh: return "🌡️"
+        case .optical: return "👁️"
+        case .electrochemical: return "⚗️"
+        case .mechanical: return "⚙️"
+        case .airFlow: return "💨"
+        case .environmental: return "🌤️"
+        case .moisture: return "💧"
+        case .weather: return "🌦️"
         }
     }
     
     var color: Color {
         switch self {
         case .soilPh: return .orange
-        case .moisture: return .blue
-        case .environmental: return .cyan
         case .optical: return .green
+        case .electrochemical: return .purple
+        case .mechanical: return .gray
+        case .airFlow: return .blue
+        case .environmental: return .cyan
+        case .moisture: return .blue
+        case .weather: return .indigo
         }
     }
 }
@@ -134,17 +146,40 @@ final class OptimizationViewModel: ObservableObject {
         switch type {
         case .soilPh:
             return ["pH": Double.random(in: 5.5...7.5)]
-        case .moisture:
-            return ["Moisture": Double.random(in: 25...75)]
-        case .environmental:
-            return [
-                "Temperature": Double.random(in: 15...35),
-                "Humidity": Double.random(in: 40...85)
-            ]
         case .optical:
             return [
                 "NDVI": Double.random(in: 0.3...0.8),
                 "Plant Health": Double.random(in: 60...95)
+            ]
+        case .electrochemical:
+            return [
+                "Nitrogen": Double.random(in: 15...45),
+                "Phosphorus": Double.random(in: 8...25),
+                "Potassium": Double.random(in: 12...35)
+            ]
+        case .mechanical:
+            return [
+                "Compaction": Double.random(in: 0.8...2.5),
+                "Resistance": Double.random(in: 5...20)
+            ]
+        case .airFlow:
+            return [
+                "Air Permeability": Double.random(in: 2...8),
+                "Oxygen Level": Double.random(in: 18...22)
+            ]
+        case .environmental:
+            return [
+                "Temperature": Double.random(in: 15...35),
+                "Humidity": Double.random(in: 40...85),
+                "CO2": Double.random(in: 350...450)
+            ]
+        case .moisture:
+            return ["Moisture": Double.random(in: 25...75)]
+        case .weather:
+            return [
+                "Wind Speed": Double.random(in: 2...15),
+                "Precipitation": Double.random(in: 0...10),
+                "Pressure": Double.random(in: 1000...1020)
             ]
         }
     }

@@ -249,7 +249,6 @@ struct OptimizationView: View {
                     PremiumSensorCard(sensor: sensor, viewModel: viewModel)
                 }
             }
-            .padding(.horizontal, 16)
         }
         .premiumCard(elevation: 4)
     }

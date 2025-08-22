@@ -153,6 +153,9 @@ struct OptimizationView: View {
                 }
             } else {
                 VStack(spacing: 12) {
+                    let connectedSensorsCount = viewModel.sensors.filter { $0.isConnected }.count
+                    let isButtonEnabled = connectedSensorsCount > 0
+                    
                     Button(action: viewModel.calculateOptimization) {
                         HStack(spacing: 12) {
                             Image(systemName: "brain.head.profile")
@@ -160,25 +163,28 @@ struct OptimizationView: View {
                             Text("🧠 Calculate Recommendations")
                                 .font(.premiumHeadline(18))
                         }
-                        .foregroundColor(Color.white)
+                        .foregroundColor(isButtonEnabled ? Color.white : Color.textSecondary)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
                         .background(
                             RoundedRectangle(cornerRadius: 12)
-                                .fill(LinearGradient.accentGradient)
+                                .fill(isButtonEnabled ? LinearGradient.accentGradient : LinearGradient(colors: [Color.backgroundLight, Color.backgroundLight], startPoint: .top, endPoint: .bottom))
                         )
                         .shadow(
-                            color: Color.secondaryGreen.opacity(0.3),
-                            radius: 8,
+                            color: isButtonEnabled ? Color.secondaryGreen.opacity(0.3) : Color.clear,
+                            radius: isButtonEnabled ? 8 : 0,
                             x: 0,
-                            y: 4
+                            y: isButtonEnabled ? 4 : 0
                         )
                     }
                     .buttonStyle(PressableButtonStyle())
+                    .disabled(!isButtonEnabled)
                     
-                    Text("Ready to process \(viewModel.sensors.filter { $0.isConnected }.count) connected sensors")
+                    Text(connectedSensorsCount > 0 ? 
+                         "Ready to process \(connectedSensorsCount) connected sensors" :
+                         "No sensors connected. Please connect sensors to calculate recommendations.")
                         .font(.premiumCaption(14))
-                        .foregroundColor(Color.textSecondary)
+                        .foregroundColor(connectedSensorsCount > 0 ? Color.textSecondary : Color.accentOrange)
                         .multilineTextAlignment(.center)
                 }
             }

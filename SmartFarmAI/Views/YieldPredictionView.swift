@@ -34,6 +34,13 @@ struct YieldPredictionView: View {
                 animateForm = true
             }
         }
+        .sheet(isPresented: $showingCropPicker) {
+            CropPickerView(selectedCrop: $viewModel.selectedCrop)
+        }
+        .sheet(isPresented: $showingRegionPicker) {
+            RegionPickerView(selectedRegion: $viewModel.selectedRegion, regions: viewModel.regions)
+        }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 
     // MARK: - Header Section
@@ -204,6 +211,14 @@ struct YieldPredictionView: View {
                                             .stroke(Color.gray.opacity(0.2), lineWidth: 1)
                                     )
                             )
+                            .toolbar {
+                                ToolbarItemGroup(placement: .keyboard) {
+                                    Spacer()
+                                    Button("Done") {
+                                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                                    }
+                                }
+                            }
                         
                         Button(action: {
                             if let current = Double(viewModel.farmSizeText) {
@@ -438,6 +453,94 @@ struct PremiumInputField: View {
             )
         }
         .buttonStyle(PlainButtonStyle())
+    }
+}
+
+// MARK: - Crop Picker View
+struct CropPickerView: View {
+    @Binding var selectedCrop: Crop
+    @Environment(\.dismiss) private var dismiss
+    
+    var body: some View {
+        NavigationView {
+            List(Crop.allCases, id: \.self) { crop in
+                Button(action: {
+                    selectedCrop = crop
+                    dismiss()
+                }) {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(crop.displayName)
+                                .font(.premiumBody(16))
+                                .foregroundColor(Color.textPrimary)
+                            Text(crop.description)
+                                .font(.premiumCaption(12))
+                                .foregroundColor(Color.textSecondary)
+                        }
+                        
+                        Spacer()
+                        
+                        if selectedCrop == crop {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(Color.secondaryGreen)
+                        }
+                    }
+                    .padding(.vertical, 8)
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+            .navigationTitle("Select Crop")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Region Picker View
+struct RegionPickerView: View {
+    @Binding var selectedRegion: String
+    let regions: [String]
+    @Environment(\.dismiss) private var dismiss
+    
+    var body: some View {
+        NavigationView {
+            List(regions, id: \.self) { region in
+                Button(action: {
+                    selectedRegion = region
+                    dismiss()
+                }) {
+                    HStack {
+                        Text(region)
+                            .font(.premiumBody(16))
+                            .foregroundColor(Color.textPrimary)
+                        
+                        Spacer()
+                        
+                        if selectedRegion == region {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(Color.accentBlue)
+                        }
+                    }
+                    .padding(.vertical, 8)
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+            .navigationTitle("Select Region")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+            }
+        }
     }
 }
 

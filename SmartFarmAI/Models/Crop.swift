@@ -16,6 +16,16 @@ enum Crop: String, CaseIterable, Codable, Hashable {
         case .cotton: return "Cotton"
         }
     }
+    
+    var description: String {
+        switch self {
+        case .corn: return "High-yield grain crop for feed and ethanol"
+        case .wheat: return "Versatile cereal grain for bread and pasta"
+        case .soybeans: return "Protein-rich legume for oil and feed"
+        case .rice: return "Staple grain crop for global consumption"
+        case .cotton: return "Fiber crop for textiles and clothing"
+        }
+    }
 }
 
 

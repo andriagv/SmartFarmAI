@@ -405,17 +405,8 @@ struct PremiumSensorCard: View {
                 Text(sensor.type.icon)
                     .font(.system(size: 24, weight: .medium))
                 
-                VStack(alignment: .leading, spacing: 4) {
-                    // Sensor Name
-                    Text(sensor.name)
-                        .font(.premiumHeadline(18))
-                        .foregroundColor(Color.textPrimary)
-                    
-                    // Type and Last Update
-                    Text("Type: \(sensor.type.rawValue) • Last Update: \(lastUpdateText)")
-                        .font(.premiumCaption(14))
-                        .foregroundColor(Color.textSecondary)
-                }
+                Text(sensor.name)
+                    .foregroundColor(Color.textPrimary)
             }
             
             Spacer()
@@ -458,7 +449,7 @@ struct PremiumSensorCard: View {
                             .font(.premiumCaption(14))
                             .fontWeight(.semibold)
                             .foregroundColor(Color.white)
-                            .padding(.horizontal, 16)
+                            //.padding(.horizontal, 16)
                             .padding(.vertical, 8)
                             .frame(minWidth: 80)
                             .background(

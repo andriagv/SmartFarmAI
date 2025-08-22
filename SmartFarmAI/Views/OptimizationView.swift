@@ -311,8 +311,9 @@ struct PremiumSensorOption: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            Text(sensorType.icon)
+            Image(systemName: sensorType.icon)
                 .font(.system(size: 20, weight: .medium))
+                .foregroundColor(sensorType.color)
             
             VStack(alignment: .leading, spacing: 2) {
                 Text(sensorType.rawValue)
@@ -400,8 +401,9 @@ struct PremiumSensorCard: View {
             // Left Side: Icon + Content
             HStack(spacing: 12) {
                 // Sensor Icon
-                Text(sensor.type.icon)
+                Image(systemName: sensor.type.icon)
                     .font(.system(size: 24, weight: .medium))
+                    .foregroundColor(sensor.type.color)
                 
                 Text(sensor.name)
                     .foregroundColor(Color.textPrimary)

@@ -5,52 +5,45 @@ struct OptimizationView: View {
     @StateObject private var viewModel = OptimizationViewModel()
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 24) {
-                    // Header Section
-                    headerSection
-                    
-                    // Sensor Management
-                    sensorManagementSection
-                    
-                    // Connected Sensors Display
-                    if !viewModel.sensors.isEmpty {
-                        connectedSensorsSection
-                    }
-                    
-                    // Optimization Engine
-                    optimizationEngineSection
-                    
-                    // Recommendations
-                    if !viewModel.recommendations.isEmpty {
-                        recommendationsSection
-                    }
+        ScrollView {
+            VStack(spacing: 24) {
+                // Header Section
+                headerSection
+                
+                // Sensor Management
+                sensorManagementSection
+                
+                // Connected Sensors Display
+                if !viewModel.sensors.isEmpty {
+                    connectedSensorsSection
                 }
-                .padding(.horizontal, 20)
-                .padding(.vertical, 16)
+                
+                // Optimization Engine
+                optimizationEngineSection
+                
+                // Recommendations
+                if !viewModel.recommendations.isEmpty {
+                    recommendationsSection
+                }
             }
-            .background(
-                LinearGradient.backgroundGradient
-                    .ignoresSafeArea()
-            )
-            .navigationTitle("Farm Optimization")
-            .navigationBarTitleDisplayMode(.large)
-            .toolbarBackground(Color.primaryGreen, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
-            .overlay(
-                // Toast Notification
-                VStack {
-                    if viewModel.showToast {
-                        ToastNotification(message: viewModel.toastMessage)
-                            .transition(.move(edge: .top).combined(with: .opacity))
-                    }
-                    Spacer()
-                }
-                .animation(.easeInOut(duration: 0.3), value: viewModel.showToast)
-            )
+            .padding(.horizontal, 20)
+            .padding(.vertical, 5)
         }
+        .background(
+            LinearGradient.backgroundGradient
+                .ignoresSafeArea()
+        )
+        .overlay(
+            // Toast Notification
+            VStack {
+                if viewModel.showToast {
+                    ToastNotification(message: viewModel.toastMessage)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                }
+                Spacer()
+            }
+            .animation(.easeInOut(duration: 0.3), value: viewModel.showToast)
+        )
     }
     
     // MARK: - Header Section

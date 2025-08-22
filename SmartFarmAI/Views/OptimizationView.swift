@@ -50,9 +50,6 @@ struct OptimizationView: View {
         VStack(spacing: 20) {
             HStack {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Smart Farm Optimization")
-                        .font(.premiumTitle(28))
-                        .foregroundColor(Color.textPrimary)
                     
                     Text("Real-time sensor data analysis and optimization recommendations")
                         .font(.premiumBody(16))

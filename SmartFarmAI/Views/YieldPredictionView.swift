@@ -41,9 +41,6 @@ struct YieldPredictionView: View {
         VStack(spacing: 16) {
             HStack {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Yield & Planner")
-                        .font(.premiumTitle(32))
-                        .foregroundColor(Color.textPrimary)
                     
                     Text("AI-powered yield prediction and farming optimization")
                         .font(.premiumBody(16))

@@ -7,7 +7,7 @@ struct OptimizationView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 20) {
+                VStack(spacing: 24) {
                     // Header Section
                     headerSection
                     
@@ -27,266 +27,233 @@ struct OptimizationView: View {
                         recommendationsSection
                     }
                 }
-                .padding()
+                .padding(.horizontal, 20)
+                .padding(.vertical, 16)
             }
             .background(
-                LinearGradient(
-                    colors: [
-                        Color(red: 0.1, green: 0.3, blue: 0.1),
-                        Color(red: 0.2, green: 0.4, blue: 0.2)
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .ignoresSafeArea()
+                LinearGradient.backgroundGradient
+                    .ignoresSafeArea()
             )
             .navigationTitle("Farm Optimization")
             .navigationBarTitleDisplayMode(.large)
+            .toolbarBackground(Color.primaryGreen, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarColorScheme(.dark, for: .navigationBar)
             .overlay(
                 // Toast Notification
                 VStack {
                     if viewModel.showToast {
-                        toastView
+                        ToastNotification(message: viewModel.toastMessage)
                             .transition(.move(edge: .top).combined(with: .opacity))
                     }
                     Spacer()
                 }
-                .animation(.spring(), value: viewModel.showToast)
+                .animation(.easeInOut(duration: 0.3), value: viewModel.showToast)
             )
         }
     }
     
     // MARK: - Header Section
     private var headerSection: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 20) {
             HStack {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Smart Farm Optimization")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
+                        .font(.premiumTitle(28))
+                        .foregroundColor(Color.textPrimary)
                     
                     Text("Real-time sensor data analysis and optimization recommendations")
-                        .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.8))
+                        .font(.premiumBody(16))
+                        .foregroundColor(Color.textSecondary)
                 }
                 Spacer()
             }
             
             // Quick Stats
             HStack(spacing: 16) {
-                StatCard(
+                PremiumStatCard(
                     title: "Data Points",
-                    value: "150",
+                    value: "\(viewModel.sensors.count * 25)",
                     icon: "chart.line.uptrend.xyaxis",
-                    color: .blue
+                    color: Color.accentBlue
                 )
                 
-                StatCard(
+                PremiumStatCard(
                     title: "Efficiency",
-                    value: "92%",
+                    value: "\(min(95, 70 + viewModel.sensors.count * 5))%",
                     icon: "leaf.fill",
-                    color: .green
+                    color: Color.secondaryGreen
                 )
                 
-                StatCard(
+                PremiumStatCard(
                     title: "Savings",
-                    value: "$450",
+                    value: "$\(viewModel.sensors.count * 120)",
                     icon: "dollarsign.circle.fill",
-                    color: .orange
+                    color: Color.accentOrange
                 )
             }
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(.ultraThinMaterial)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(.white.opacity(0.2), lineWidth: 1)
-                )
-        )
+        .premiumCard(elevation: 6)
     }
     
     // MARK: - Sensor Management Section
     private var sensorManagementSection: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("Sensor Management")
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
-            
-            Text("Add sensors to collect real-time farm data for optimization analysis.")
-                .font(.subheadline)
-                .foregroundColor(.white.opacity(0.8))
-            
-            Button(action: {
-                viewModel.toggleSensorDropdown()
-            }) {
-                HStack {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.title2)
-                    Text("Add Sample Sensor")
-                        .fontWeight(.semibold)
-                }
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(.ultraThinMaterial)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(.white.opacity(0.3), lineWidth: 1)
+        VStack(alignment: .leading, spacing: 20) {
+            HStack {
+                Text("🌱 Add Sample Sensor")
+                    .font(.premiumHeadline(20))
+                    .foregroundColor(Color.textPrimary)
+                Spacer()
+                Button(action: {
+                    viewModel.toggleSensorDropdown()
+                }) {
+                    Image(systemName: viewModel.showSensorDropdown ? "chevron.up" : "chevron.down")
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundColor(Color.textSecondary)
+                        .frame(width: 32, height: 32)
+                        .background(
+                            Circle()
+                                .fill(Color.backgroundWhite)
+                                .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
                         )
-                )
+                }
             }
+            
+            Text("Select sensors to collect real-time farm data for optimization analysis.")
+                .font(.premiumBody(16))
+                .foregroundColor(Color.textSecondary)
             
             // Sensor Dropdown Menu
             if viewModel.showSensorDropdown {
-                VStack(spacing: 8) {
+                VStack(spacing: 12) {
                     ForEach(SensorType.allCases, id: \.self) { sensorType in
-                        HStack {
-                            Text(sensorType.icon)
-                                .font(.title2)
-                            Text(sensorType.rawValue)
-                                .font(.body)
-                                .foregroundColor(.white)
-                            Spacer()
-                            Button(action: {
+                        PremiumSensorOption(
+                            sensorType: sensorType,
+                            onAdd: {
                                 viewModel.addSensor(type: sensorType)
-                            }) {
-                                Image(systemName: "plus.circle.fill")
-                                    .foregroundColor(.green)
-                                    .font(.title2)
                             }
-                        }
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(.ultraThinMaterial.opacity(0.5))
                         )
                     }
                 }
                 .padding(.top, 8)
             }
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(.ultraThinMaterial)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(.white.opacity(0.2), lineWidth: 1)
-                )
-        )
+        .premiumCard(elevation: 4)
     }
     
     // MARK: - Optimization Engine Section
     private var optimizationEngineSection: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 20) {
             Text("Optimization Engine")
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
+                .font(.premiumHeadline(20))
+                .foregroundColor(Color.textPrimary)
             
             if viewModel.isCalculating {
                 VStack(spacing: 16) {
-                    ProgressView(value: viewModel.calculationProgress) {
-                        Text("Analyzing sensor data...")
-                            .foregroundColor(.white)
+                    HStack {
+                        ProgressView(value: viewModel.calculationProgress)
+                            .progressViewStyle(LinearProgressViewStyle(tint: Color.secondaryGreen))
+                        Text("\(Int(viewModel.calculationProgress * 100))%")
+                            .font(.premiumCaption(14))
+                            .foregroundColor(Color.textSecondary)
                     }
-                    .progressViewStyle(LinearProgressViewStyle(tint: .green))
                     
-                    Text("\(Int(viewModel.calculationProgress * 100))% Complete")
-                        .font(.caption)
-                        .foregroundColor(.white.opacity(0.8))
+                    Text("Analyzing sensor data and generating recommendations...")
+                        .font(.premiumBody(16))
+                        .foregroundColor(Color.textSecondary)
                 }
             } else {
-                Button(action: viewModel.calculateOptimization) {
-                    HStack(spacing: 12) {
-                        Image(systemName: "brain.head.profile")
-                            .font(.title2)
-                        Text("Calculate Recommendations")
-                            .font(.headline)
+                VStack(spacing: 12) {
+                    Button(action: viewModel.calculateOptimization) {
+                        HStack(spacing: 12) {
+                            Image(systemName: "brain.head.profile")
+                                .font(.system(size: 20, weight: .medium))
+                            Text("🧠 Calculate Recommendations")
+                                .font(.premiumHeadline(18))
+                        }
+                        .foregroundColor(Color.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(LinearGradient.accentGradient)
+                        )
+                        .shadow(
+                            color: Color.secondaryGreen.opacity(0.3),
+                            radius: 8,
+                            x: 0,
+                            y: 4
+                        )
                     }
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(
-                                LinearGradient(
-                                    colors: [.green, .blue],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                    )
+                    .buttonStyle(PressableButtonStyle())
+                    
+                    Text("Ready to process \(viewModel.sensors.filter { $0.isConnected }.count) connected sensors")
+                        .font(.premiumCaption(14))
+                        .foregroundColor(Color.textSecondary)
+                        .multilineTextAlignment(.center)
                 }
             }
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(.ultraThinMaterial)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(.white.opacity(0.2), lineWidth: 1)
-                )
-        )
+        .premiumCard(elevation: 4)
     }
     
     // MARK: - Recommendations Section
     private var recommendationsSection: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("Optimization Recommendations")
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
+        VStack(alignment: .leading, spacing: 20) {
+            HStack {
+                Text("Optimization Recommendations")
+                    .font(.premiumHeadline(20))
+                    .foregroundColor(Color.textPrimary)
+                Spacer()
+                Text("\(viewModel.recommendations.count) recommendations")
+                    .font(.premiumCaption(14))
+                    .foregroundColor(Color.textSecondary)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 4)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.backgroundLight)
+                    )
+            }
             
-            ForEach(viewModel.recommendations) { recommendation in
-                SimpleRecommendationCard(recommendation: recommendation)
+            LazyVStack(spacing: 16) {
+                ForEach(viewModel.recommendations) { recommendation in
+                    PremiumRecommendationCard(recommendation: recommendation)
+                }
             }
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(.ultraThinMaterial)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(.white.opacity(0.2), lineWidth: 1)
-                )
-        )
+        .premiumCard(elevation: 4)
     }
     
     // MARK: - Connected Sensors Section
     private var connectedSensorsSection: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("Connected Sensors")
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
+        VStack(alignment: .leading, spacing: 20) {
+            HStack {
+                Text("Connected Sensors")
+                    .font(.premiumHeadline(20))
+                    .foregroundColor(Color.textPrimary)
+                Spacer()
+                Text("\(viewModel.sensors.count) sensors")
+                    .font(.premiumCaption(14))
+                    .foregroundColor(Color.textSecondary)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 4)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.backgroundLight)
+                    )
+            }
             
             LazyVGrid(columns: [
                 GridItem(.flexible()),
                 GridItem(.flexible())
             ], spacing: 16) {
                 ForEach(viewModel.sensors) { sensor in
-                    SensorCard(sensor: sensor, viewModel: viewModel)
+                    PremiumSensorCard(sensor: sensor, viewModel: viewModel)
                 }
             }
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(.ultraThinMaterial)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(.white.opacity(0.2), lineWidth: 1)
-                )
-        )
+        .premiumCard(elevation: 4)
     }
     
     // MARK: - Toast View
@@ -313,9 +280,12 @@ struct OptimizationView: View {
     }
 }
 
-// MARK: - Supporting Views
 
-struct StatCard: View {
+
+// MARK: - Premium Components
+
+// MARK: - Premium Stat Card
+struct PremiumStatCard: View {
     let title: String
     let value: String
     let icon: String
@@ -324,97 +294,101 @@ struct StatCard: View {
     var body: some View {
         VStack(spacing: 8) {
             Image(systemName: icon)
-                .font(.title2)
+                .font(.system(size: 24, weight: .medium))
                 .foregroundColor(color)
             
             Text(value)
-                .font(.headline)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
+                .font(.premiumHeadline(20))
+                .foregroundColor(Color.textPrimary)
             
             Text(title)
-                .font(.caption)
-                .foregroundColor(.white.opacity(0.8))
+                .font(.premiumCaption(12))
+                .foregroundColor(Color.textSecondary)
         }
         .frame(maxWidth: .infinity)
-        .padding()
+        .padding(.vertical, 16)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(.ultraThinMaterial)
+                .fill(Color.backgroundWhite)
+                .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
         )
     }
 }
 
-struct SimpleRecommendationCard: View {
-    let recommendation: OptimizationRecommendation
+// MARK: - Premium Sensor Option
+struct PremiumSensorOption: View {
+    let sensorType: SensorType
+    let onAdd: () -> Void
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text(recommendation.title)
-                    .font(.headline)
-                    .foregroundColor(.primary)
+        HStack(spacing: 12) {
+            Text(sensorType.icon)
+                .font(.system(size: 20, weight: .medium))
+            
+            VStack(alignment: .leading, spacing: 2) {
+                Text(sensorType.rawValue)
+                    .font(.premiumBody(16))
+                    .foregroundColor(Color.textPrimary)
                 
-                Spacer()
-                
-                Text(recommendation.priority.rawValue)
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(recommendation.priority.color)
-                    )
+                Text("Monitor \(sensorType.rawValue.lowercased()) data")
+                    .font(.premiumCaption(12))
+                    .foregroundColor(Color.textSecondary)
             }
             
-            Text(recommendation.description)
-                .font(.body)
-                .foregroundColor(.primary)
+            Spacer()
             
-            Text("Impact: \(recommendation.impact)")
-                .font(.caption)
-                .foregroundColor(.green)
+            Button(action: onAdd) {
+                Text("+ Add")
+                    .font(.premiumCaption(14))
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(Color.secondaryGreen)
+                    )
+                    .shadow(color: Color.secondaryGreen.opacity(0.3), radius: 4, x: 0, y: 2)
+            }
+            .buttonStyle(PressableButtonStyle())
         }
-        .padding()
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
         .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(.ultraThinMaterial)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(recommendation.priority.color.opacity(0.3), lineWidth: 1)
-                )
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color.backgroundWhite)
+                .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
         )
     }
 }
 
-struct SensorCard: View {
+// MARK: - Premium Sensor Card
+struct PremiumSensorCard: View {
     let sensor: Sensor
     @ObservedObject var viewModel: OptimizationViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
+            // Header
             HStack {
-                Image(systemName: sensor.type.icon)
-                    .font(.title2)
-                    .foregroundColor(sensor.type.color)
+                Text(sensor.type.icon)
+                    .font(.system(size: 24, weight: .medium))
                 
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 2) {
                     Text(sensor.name)
-                        .font(.headline)
-                        .foregroundColor(.white)
+                        .font(.premiumHeadline(16))
+                        .foregroundColor(Color.textPrimary)
                     
                     Text(sensor.type.rawValue)
-                        .font(.caption)
-                        .foregroundColor(.white.opacity(0.8))
+                        .font(.premiumCaption(12))
+                        .foregroundColor(Color.textSecondary)
                 }
                 
                 Spacer()
                 
-                // Connection Status Indicator
+                // Status Indicator
                 Circle()
-                    .fill(sensor.isConnected ? Color.green : Color.red)
+                    .fill(sensor.isConnected ? Color.statusConnected : Color.statusDisconnected)
                     .frame(width: 12, height: 12)
                     .overlay(
                         Circle()
@@ -425,28 +399,42 @@ struct SensorCard: View {
             // Status Text
             HStack {
                 Text("Status:")
-                    .font(.caption)
-                    .foregroundColor(.white.opacity(0.8))
-                Text(sensor.isConnected ? "🟢 Connected" : "⭕ Disconnected")
-                    .font(.caption)
-                    .foregroundColor(sensor.isConnected ? .green : .red)
+                    .font(.premiumCaption(12))
+                    .foregroundColor(Color.textSecondary)
+                Text(sensor.isConnected ? "🟢 Connected" : "🔴 Disconnected")
+                    .font(.premiumCaption(12))
+                    .foregroundColor(sensor.isConnected ? Color.statusConnected : Color.statusDisconnected)
+                Spacer()
+            }
+            
+            // Last Update
+            HStack {
+                Text("Last Update:")
+                    .font(.premiumCaption(12))
+                    .foregroundColor(Color.textSecondary)
+                Text(sensor.isConnected ? "2 min ago" : "Never")
+                    .font(.premiumCaption(12))
+                    .foregroundColor(Color.textSecondary)
                 Spacer()
             }
             
             // Sensor Data (only show if connected)
             if sensor.isConnected && !sensor.data.isEmpty {
-                ForEach(Array(sensor.data.keys.sorted()), id: \.self) { key in
-                    HStack {
-                        Text(key)
-                            .font(.caption)
-                            .foregroundColor(.white.opacity(0.8))
-                        Spacer()
-                        Text(String(format: "%.1f", sensor.data[key] ?? 0))
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.white)
+                VStack(spacing: 8) {
+                    ForEach(Array(sensor.data.keys.sorted()), id: \.self) { key in
+                        HStack {
+                            Text(key)
+                                .font(.premiumCaption(12))
+                                .foregroundColor(Color.textSecondary)
+                            Spacer()
+                            Text(String(format: "%.1f", sensor.data[key] ?? 0))
+                                .font(.premiumCaption(12))
+                                .fontWeight(.semibold)
+                                .foregroundColor(Color.textPrimary)
+                        }
                     }
                 }
+                .padding(.top, 4)
             }
             
             // Action Buttons
@@ -459,44 +447,137 @@ struct SensorCard: View {
                     }
                 }) {
                     Text(sensor.isConnected ? "Disconnect" : "Connect")
-                        .font(.caption)
+                        .font(.premiumCaption(12))
                         .fontWeight(.semibold)
-                        .foregroundColor(.white)
+                        .foregroundColor(Color.white)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
                         .background(
                             RoundedRectangle(cornerRadius: 6)
-                                .fill(sensor.isConnected ? Color.orange : Color.green)
+                                .fill(sensor.isConnected ? Color.accentOrange : Color.statusConnected)
                         )
                 }
+                .buttonStyle(PressableButtonStyle())
                 
                 Spacer()
                 
                 Button(action: {
                     viewModel.removeSensor(sensor)
                 }) {
-                    Text("Remove")
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
+                    Image(systemName: "trash")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(Color.white)
+                        .padding(6)
                         .background(
-                            RoundedRectangle(cornerRadius: 6)
-                                .fill(Color.red)
+                            Circle()
+                                .fill(Color.statusWarning)
                         )
                 }
+                .buttonStyle(PressableButtonStyle())
             }
         }
-        .padding()
+        .padding(16)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(.ultraThinMaterial)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(sensor.type.color.opacity(0.3), lineWidth: 1)
-                )
+                .fill(Color.backgroundWhite)
+                .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
         )
+    }
+}
+
+// MARK: - Premium Recommendation Card
+struct PremiumRecommendationCard: View {
+    let recommendation: OptimizationRecommendation
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            // Header
+            HStack {
+                Text(recommendation.title)
+                    .font(.premiumHeadline(18))
+                    .foregroundColor(Color.textPrimary)
+                
+                Spacer()
+                
+                Text(recommendation.priority.rawValue)
+                    .font(.premiumCaption(12))
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color.white)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(recommendation.priority.color)
+                    )
+            }
+            
+            // Description
+            Text(recommendation.description)
+                .font(.premiumBody(16))
+                .foregroundColor(Color.textSecondary)
+                .lineLimit(3)
+            
+            // Impact
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Impact:")
+                    .font(.premiumCaption(14))
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color.textPrimary)
+                
+                Text(recommendation.impact)
+                    .font(.premiumCaption(14))
+                    .foregroundColor(Color.textSecondary)
+            }
+            
+            // Action Buttons
+            HStack(spacing: 12) {
+                Button("View Details") {
+                    // TODO: Implement details view
+                }
+                .premiumButton(.secondary)
+                
+                Spacer()
+                
+                Button("Implement") {
+                    // TODO: Implement action
+                }
+                .premiumButton(.primary)
+            }
+        }
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.backgroundWhite)
+                .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
+        )
+    }
+}
+
+// MARK: - Toast Notification
+struct ToastNotification: View {
+    let message: String
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "checkmark.circle.fill")
+                .foregroundColor(Color.statusConnected)
+                .font(.system(size: 18, weight: .medium))
+            
+            Text(message)
+                .font(.premiumBody(16))
+                .foregroundColor(Color.textPrimary)
+            
+            Spacer()
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 16)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.backgroundWhite)
+                .shadow(color: Color.black.opacity(0.15), radius: 8, x: 0, y: 4)
+        )
+        .padding(.horizontal, 20)
+        .padding(.top, 20)
     }
 }
 

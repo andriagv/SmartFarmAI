@@ -14,7 +14,7 @@ struct MapView: View {
             // Top-left corner: Marker button
             VStack {
                 HStack {
-                    PillButton(title: "Marker", systemImage: "mappin.and.ellipse", isActive: mode == .marker) { mode = .marker }
+                    PremiumPillButton(title: "Marker", systemImage: "mappin.and.ellipse", isActive: mode == .marker) { mode = .marker }
                     Spacer()
                 }
                 Spacer()
@@ -28,7 +28,7 @@ struct MapView: View {
                 HStack {
                     Spacer()
                     VStack(spacing: 8) {
-                        PillButton(title: "Clear", systemImage: "xmark.circle", isActive: false) { vm.markers.removeAll(); vm.polygon.removeAll() }
+                        PremiumPillButton(title: "Clear", systemImage: "xmark.circle", isActive: false) { vm.markers.removeAll(); vm.polygon.removeAll() }
                         // PillButton(title: "My Location", systemImage: "location.fill", isActive: false) {
                         //     if let userLoc = vm.userLocation {
                         //         vm.mapCenter = userLoc
@@ -110,7 +110,7 @@ struct MapView: View {
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(PressableButtonStyle())
-            .background(LinearGradient.farmGreen)
+                            .background(LinearGradient.primaryGradient)
             .foregroundColor(.white)
             .cornerRadius(14)
             .shadow(color: Color.black.opacity(0.12), radius: 6, x: 0, y: 4)

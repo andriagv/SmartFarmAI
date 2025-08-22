@@ -90,6 +90,10 @@ struct MapKitView: UIViewRepresentable {
             switch parent.mode {
             case .marker:
                 parent.viewModel.markers.append(coord)
+                // Update polygon when we have enough markers
+                if parent.viewModel.markers.count >= 3 {
+                    parent.viewModel.polygon = parent.viewModel.markers
+                }
             case .polygon:
                 parent.viewModel.polygon.append(coord)
             case .rectangle:

@@ -25,35 +25,51 @@ struct FieldAnalysisView: View {
     private var overview: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Area: \(String(format: "%.2f", vm.areaHectares)) ha").bold()
-            Text("Coordinates: \(vm.polygon.prefix(4).map { String(format: "%.4f, %.4f", $0.latitude, $0.longitude) }.joined(separator: " • "))...")
+            Text("Coordinates: \(vm.coordinatesText)")
         }.card()
     }
 
     private var analytics: some View {
         VStack(alignment: .leading, spacing: 16) {
             section(title: "Soil Moisture (30d)") {
-                Text("Chart placeholder - Soil moisture data")
-                    .frame(height: 160)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue.opacity(0.1))
+                if moisture.isEmpty {
+                    Text("Loading soil moisture data...")
+                        .frame(height: 160)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.blue.opacity(0.1))
+                } else {
+                    soilMoistureChart
+                }
             }
             section(title: "Temperature Trends") {
-                Text("Chart placeholder - Temperature data")
-                    .frame(height: 160)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.red.opacity(0.1))
+                if temps.isEmpty {
+                    Text("Loading temperature data...")
+                        .frame(height: 160)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.red.opacity(0.1))
+                } else {
+                    temperatureChart
+                }
             }
             section(title: "Vegetation Health Index (NDVI)") {
-                Text("Chart placeholder - NDVI data")
-                    .frame(height: 160)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.green.opacity(0.1))
+                if ndvi.isEmpty {
+                    Text("Loading NDVI data...")
+                        .frame(height: 160)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.green.opacity(0.1))
+                } else {
+                    ndviChart
+                }
             }
             section(title: "7-day Weather Forecast (mm)") {
-                Text("Chart placeholder - Weather forecast")
-                    .frame(height: 160)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.cyan.opacity(0.1))
+                if forecast.isEmpty {
+                    Text("Loading weather forecast...")
+                        .frame(height: 160)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.cyan.opacity(0.1))
+                } else {
+                    weatherForecastChart
+                }
             }
             recommendations
         }
@@ -81,6 +97,232 @@ struct FieldAnalysisView: View {
             Button("Share Report") {}
             Button("Schedule Monitoring") {}
         }.buttonStyle(.bordered)
+    }
+
+    // MARK: - Chart Components
+    private var soilMoistureChart: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("Average: \(String(format: "%.1f", moisture.reduce(0, +) / Double(moisture.count)))%")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text("Current: \(String(format: "%.1f", moisture.last ?? 0))%")
+                    .font(.caption)
+                    .foregroundColor(.blue)
+            }
+            
+            GeometryReader { geometry in
+                ZStack {
+                    // Background gradient
+                    Rectangle()
+                        .fill(
+                            LinearGradient(
+                                colors: [Color.blue.opacity(0.1), Color.blue.opacity(0.05)],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                    
+                    // Chart line
+                    Path { path in
+                        let width = geometry.size.width
+                        let height = geometry.size.height
+                        let stepX = width / CGFloat(moisture.count - 1)
+                        let maxValue = moisture.max() ?? 100
+                        let minValue = moisture.min() ?? 0
+                        let range = maxValue - minValue
+                        
+                        for (index, value) in moisture.enumerated() {
+                            let x = CGFloat(index) * stepX
+                            let y = height - (CGFloat(value - minValue) / CGFloat(range)) * height
+                            
+                            if index == 0 {
+                                path.move(to: CGPoint(x: x, y: y))
+                            } else {
+                                path.addLine(to: CGPoint(x: x, y: y))
+                            }
+                        }
+                    }
+                    .stroke(Color.blue, lineWidth: 2)
+                }
+            }
+            .frame(height: 120)
+        }
+        .padding()
+        .background(Color.blue.opacity(0.05))
+        .cornerRadius(12)
+    }
+    
+    private var temperatureChart: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("High: \(String(format: "%.1f°C", temps.map { $0.0 }.max() ?? 0))")
+                    .font(.caption)
+                    .foregroundColor(.red)
+                Spacer()
+                Text("Low: \(String(format: "%.1f°C", temps.map { $0.1 }.min() ?? 0))")
+                    .font(.caption)
+                    .foregroundColor(.orange)
+            }
+            
+            GeometryReader { geometry in
+                ZStack {
+                    // Background gradient
+                    Rectangle()
+                        .fill(
+                            LinearGradient(
+                                colors: [Color.red.opacity(0.1), Color.orange.opacity(0.05)],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                    
+                    // Temperature range area
+                    Path { path in
+                        let width = geometry.size.width
+                        let height = geometry.size.height
+                        let stepX = width / CGFloat(temps.count - 1)
+                        let maxTemp = temps.map { max($0.0, $0.1) }.max() ?? 40
+                        let minTemp = temps.map { min($0.0, $0.1) }.min() ?? 0
+                        let range = maxTemp - minTemp
+                        
+                        for (index, temp) in temps.enumerated() {
+                            let x = CGFloat(index) * stepX
+                            let highY = height - (CGFloat(temp.0 - minTemp) / CGFloat(range)) * height
+                            let lowY = height - (CGFloat(temp.1 - minTemp) / CGFloat(range)) * height
+                            
+                            if index == 0 {
+                                path.move(to: CGPoint(x: x, y: highY))
+                            } else {
+                                path.addLine(to: CGPoint(x: x, y: highY))
+                            }
+                        }
+                        
+                        for (index, temp) in temps.enumerated().reversed() {
+                            let x = CGFloat(temps.count - 1 - index) * stepX
+                            let lowY = height - (CGFloat(temp.1 - minTemp) / CGFloat(range)) * height
+                            path.addLine(to: CGPoint(x: x, y: lowY))
+                        }
+                        
+                        path.closeSubpath()
+                    }
+                    .fill(
+                        LinearGradient(
+                            colors: [Color.red.opacity(0.3), Color.orange.opacity(0.1)],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                }
+            }
+            .frame(height: 120)
+        }
+        .padding()
+        .background(Color.red.opacity(0.05))
+        .cornerRadius(12)
+    }
+    
+    private var ndviChart: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("Average: \(String(format: "%.3f", ndvi.reduce(0, +) / Double(ndvi.count)))")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text("Current: \(String(format: "%.3f", ndvi.last ?? 0))")
+                    .font(.caption)
+                    .foregroundColor(.green)
+            }
+            
+            GeometryReader { geometry in
+                ZStack {
+                    // Background gradient
+                    Rectangle()
+                        .fill(
+                            LinearGradient(
+                                colors: [Color.green.opacity(0.1), Color.green.opacity(0.05)],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                    
+                    // Chart line
+                    Path { path in
+                        let width = geometry.size.width
+                        let height = geometry.size.height
+                        let stepX = width / CGFloat(ndvi.count - 1)
+                        let maxValue = ndvi.max() ?? 1.0
+                        let minValue = ndvi.min() ?? 0.0
+                        let range = maxValue - minValue
+                        
+                        for (index, value) in ndvi.enumerated() {
+                            let x = CGFloat(index) * stepX
+                            let y = height - (CGFloat(value - minValue) / CGFloat(range)) * height
+                            
+                            if index == 0 {
+                                path.move(to: CGPoint(x: x, y: y))
+                            } else {
+                                path.addLine(to: CGPoint(x: x, y: y))
+                            }
+                        }
+                    }
+                    .stroke(Color.green, lineWidth: 2)
+                }
+            }
+            .frame(height: 120)
+        }
+        .padding()
+        .background(Color.green.opacity(0.05))
+        .cornerRadius(12)
+    }
+    
+    private var weatherForecastChart: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("Total: \(String(format: "%.1f mm", forecast.reduce(0, +)))")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text("Max: \(String(format: "%.1f mm", forecast.max() ?? 0))")
+                    .font(.caption)
+                    .foregroundColor(.cyan)
+            }
+            
+            GeometryReader { geometry in
+                HStack(alignment: .bottom, spacing: 4) {
+                    ForEach(Array(forecast.enumerated()), id: \.offset) { index, value in
+                        let maxValue = forecast.max() ?? 1.0
+                        let height = (CGFloat(value) / CGFloat(maxValue)) * geometry.size.height
+                        
+                        VStack {
+                            Text(String(format: "%.1f", value))
+                                .font(.caption2)
+                                .foregroundColor(.cyan)
+                            
+                            Rectangle()
+                                .fill(
+                                    LinearGradient(
+                                        colors: [Color.cyan, Color.cyan.opacity(0.6)],
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                )
+                                .frame(height: max(height, 4))
+                                .cornerRadius(2)
+                            
+                            Text("D\(index + 1)")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+            }
+            .frame(height: 120)
+        }
+        .padding()
+        .background(Color.cyan.opacity(0.05))
+        .cornerRadius(12)
     }
 
     private func simulateLoad() {

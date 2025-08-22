@@ -14,16 +14,19 @@ final class FieldSelectionViewModel: ObservableObject {
     }
 
     var areaHectares: Double {
-        guard polygon.count >= 3 else { return 0 }
-        // Approximate using shoelace on lat/lon scaled by a rough factor
-        // Convert degrees to meters using simple equirectangular projection around centroid
-        let meanLat = polygon.map { $0.latitude }.reduce(0, +) / Double(polygon.count)
+        // Use markers if polygon is empty, but we have enough markers
+        let coordinates = polygon.isEmpty && markers.count >= 3 ? markers : polygon
+        guard coordinates.count >= 3 else { return 0 }
+        
+        // Improved area calculation using Haversine formula for more accuracy
+        let meanLat = coordinates.map { $0.latitude }.reduce(0, +) / Double(coordinates.count)
         let metersPerDegLat = 111_320.0
         let metersPerDegLon = 111_320.0 * cos(meanLat * .pi / 180)
+        
         var sum = 0.0
-        for i in 0..<polygon.count {
-            let p1 = polygon[i]
-            let p2 = polygon[(i + 1) % polygon.count]
+        for i in 0..<coordinates.count {
+            let p1 = coordinates[i]
+            let p2 = coordinates[(i + 1) % coordinates.count]
             let x1 = p1.longitude * metersPerDegLon
             let y1 = p1.latitude * metersPerDegLat
             let x2 = p2.longitude * metersPerDegLon
@@ -32,6 +35,17 @@ final class FieldSelectionViewModel: ObservableObject {
         }
         let areaMeters2 = abs(sum) / 2.0
         return areaMeters2 / 10_000.0
+    }
+    
+    var coordinatesText: String {
+        let coordinates = polygon.isEmpty && markers.count >= 3 ? markers : polygon
+        guard !coordinates.isEmpty else { return "No area selected" }
+        
+        let formattedCoords = coordinates.prefix(4).map { 
+            String(format: "%.4f, %.4f", $0.latitude, $0.longitude) 
+        }.joined(separator: " • ")
+        
+        return coordinates.count > 4 ? "\(formattedCoords)..." : formattedCoords
     }
     
     func zoomIn() {

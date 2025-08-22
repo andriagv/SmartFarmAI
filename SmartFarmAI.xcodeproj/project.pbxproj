@@ -1,0 +1,599 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		005FACAC9A25959F9A1ABF51 /* AppSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E674A1474AB068D656B43146 /* AppSettingsViewModel.swift */; };
+		059371985F55E07925C63FF3 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2746D72E8965A4F2CD6FF06A /* UserProfile.swift */; };
+		05D0B736269AE004915E3571 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5EA613352D547162661280 /* CalendarView.swift */; };
+		0783A79E61C618B9F9C0954F /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11D648897F9D4A47D43180 /* ExportService.swift */; };
+		0A9405C33B8F71DBDA9407A2 /* Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF7A6BC00D2F8553393E1EE /* Crop.swift */; };
+		0C137959DA38B415C9B1A9C6 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACCC98CA7F202405FCAC6E0 /* WeatherData.swift */; };
+		0CC82D047EF5B2633C4283FE /* CardModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32503FB64473B658C38EC561 /* CardModifier.swift */; };
+		0D72C4F64CD10C8FFD4E5F62 /* SmartFarmAITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BADC15FA02D4894B16DBD08 /* SmartFarmAITests.swift */; };
+		0F03FB37119A75E6131A2F41 /* PestResultDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD8BA22A487C88A84B65F80 /* PestResultDetailView.swift */; };
+		0F5E968DAF11A85250FF5DDF /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84DAECFBCC0802C4A8FC015 /* WeatherService.swift */; };
+		1576B44368D57F53EC4AD454 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F705C5170B440431B89A9C /* LocationService.swift */; };
+		1A122BB09235134A30E77083 /* MapWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD8DDD85426BBDE5D95F163 /* MapWebView.swift */; };
+		1C5F8E27B972EBEEE774CB7F /* MapKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A515A8117064A998EA2FE125 /* MapKitView.swift */; };
+		1DEF801FBAE37952616091FF /* FieldAnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA85525634B770E5A8816869 /* FieldAnalysisView.swift */; };
+		26F2D242BE86BBF35F68335F /* FieldSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D1EC76106D41ED6134C25E /* FieldSelectionViewModel.swift */; };
+		2B71C4D755905827B461E3D3 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = F276C6D791D43D461E7501CD /* Styles.swift */; };
+		3C675C144FCE6354D44BEB59 /* YieldPredictionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1B257283CB72F3B59E67CA /* YieldPredictionViewModel.swift */; };
+		3F3C4A8194A0D52233B7BF97 /* MockData.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D5AB0ADD6980C4BC29FADC0 /* MockData.json */; };
+		5AB27AFD7F0BAB9E3E38AD2E /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7251B5D91161E76EDCF2148 /* CameraService.swift */; };
+		636519FBDDD10F07ABF2876C /* OptimizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBBE381B74641DCEE36CB92 /* OptimizationViewModel.swift */; };
+		7B842FFB72D6918E6F72D434 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24421F302D9B59A1BC1F7FE1 /* OnboardingView.swift */; };
+		7BEC04F5BC77D77A361FD7EC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E760645E80A9ECCE9BC49FB2 /* SettingsView.swift */; };
+		8048FCA75FC2D29D493BF617 /* OptimizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5673B0B25E1F870F90AC21 /* OptimizationView.swift */; };
+		8483E426BB1CFC57B2387D8F /* MapWebView.html in Resources */ = {isa = PBXBuildFile; fileRef = 8285234EFACA4C76D8339C24 /* MapWebView.html */; };
+		8E4FDAA9BA0C6BA88B5F24C6 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F21E22DACF532EEC299ED5 /* NotificationService.swift */; };
+		91B4979338984211965EB020 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB0FA0D5BD8B786103DF09F /* DataManager.swift */; };
+		98C715E680D0616AE1444B13 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913560C8C51B9371FD0B443F /* CameraView.swift */; };
+		A347359F7E42ECBC41EE799F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 97206A3E980E2C78DB694A91 /* README.md */; };
+		A35AEA1B19135DACAA57419B /* AIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4406B61BB548AEDED92F3A2B /* AIService.swift */; };
+		A5D0D17DA412BAEEAEB52CAB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA3D1D383D16F33C3C75CE /* ContentView.swift */; };
+		A656DEC74C3550464156B901 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B259CAA5244BD28BC0057D7A /* Sensor.swift */; };
+		AD78EC7269050F284A10EFD1 /* SmartFarmAIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2176EF333082D21217A6A321 /* SmartFarmAIApp.swift */; };
+		B7B2417BCCC56CC8389EDAA7 /* YieldPredictionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975F5ECC7C071B0EAB4A96DC /* YieldPredictionView.swift */; };
+		BB9A3280447C42D423DCA062 /* PestDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13FB030CB27E59735A8C58D /* PestDetection.swift */; };
+		C2800B256E4158967516CE57 /* PestDetectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950FD752A8074AF5B7FD1EAC /* PestDetectionViewModel.swift */; };
+		C52C2D28A0F6FDABCBF04FC2 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AAB0B87FB42AA449AE8E98A /* MapView.swift */; };
+		D0E0876AEE786686AD261F20 /* ProfileEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F833664F34A5C16671A79698 /* ProfileEditorView.swift */; };
+		DB7C635A503765FE8DE10FA3 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC33889808910F104BECBEC6 /* CoreDataStack.swift */; };
+		E264861FE399C7F81B190122 /* PestDetectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D02A4916BAB40631CA3063 /* PestDetectionView.swift */; };
+		ED4AAD20DE7D0BE26A53A311 /* FarmPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D8FC84D4EAAB338B4988A /* FarmPlan.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		08A7B9AC3F75A264DB7757DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F99B2876A8794161F066BE6D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5E4C585F70285316D49CEEC9;
+			remoteInfo = SmartFarmAI;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0A11D648897F9D4A47D43180 /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
+		2176EF333082D21217A6A321 /* SmartFarmAIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFarmAIApp.swift; sourceTree = "<group>"; };
+		24421F302D9B59A1BC1F7FE1 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		2746D72E8965A4F2CD6FF06A /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		32503FB64473B658C38EC561 /* CardModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModifier.swift; sourceTree = "<group>"; };
+		3BADC15FA02D4894B16DBD08 /* SmartFarmAITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFarmAITests.swift; sourceTree = "<group>"; };
+		4406B61BB548AEDED92F3A2B /* AIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIService.swift; sourceTree = "<group>"; };
+		4B5673B0B25E1F870F90AC21 /* OptimizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptimizationView.swift; sourceTree = "<group>"; };
+		4CB0FA0D5BD8B786103DF09F /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		4E8D8FC84D4EAAB338B4988A /* FarmPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarmPlan.swift; sourceTree = "<group>"; };
+		4EF7A6BC00D2F8553393E1EE /* Crop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crop.swift; sourceTree = "<group>"; };
+		6A1B257283CB72F3B59E67CA /* YieldPredictionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldPredictionViewModel.swift; sourceTree = "<group>"; };
+		6D5AB0ADD6980C4BC29FADC0 /* MockData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockData.json; sourceTree = "<group>"; };
+		758DC306B8743A153F12AA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7AAB0B87FB42AA449AE8E98A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		81F300CD4AE25852DA3A6C60 /* SmartFarmAI.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SmartFarmAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8285234EFACA4C76D8339C24 /* MapWebView.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = MapWebView.html; sourceTree = "<group>"; };
+		85D1EC76106D41ED6134C25E /* FieldSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldSelectionViewModel.swift; sourceTree = "<group>"; };
+		913560C8C51B9371FD0B443F /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		950FD752A8074AF5B7FD1EAC /* PestDetectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PestDetectionViewModel.swift; sourceTree = "<group>"; };
+		97206A3E980E2C78DB694A91 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		975F5ECC7C071B0EAB4A96DC /* YieldPredictionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YieldPredictionView.swift; sourceTree = "<group>"; };
+		97D02A4916BAB40631CA3063 /* PestDetectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PestDetectionView.swift; sourceTree = "<group>"; };
+		9C5EA613352D547162661280 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		A515A8117064A998EA2FE125 /* MapKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKitView.swift; sourceTree = "<group>"; };
+		ACD8BA22A487C88A84B65F80 /* PestResultDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PestResultDetailView.swift; sourceTree = "<group>"; };
+		B259CAA5244BD28BC0057D7A /* Sensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
+		B8F21E22DACF532EEC299ED5 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		C13FB030CB27E59735A8C58D /* PestDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PestDetection.swift; sourceTree = "<group>"; };
+		C7251B5D91161E76EDCF2148 /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
+		CACCC98CA7F202405FCAC6E0 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
+		CE59FFF5AB139D709A7C3F8B /* SmartFarmAITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SmartFarmAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEBBE381B74641DCEE36CB92 /* OptimizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptimizationViewModel.swift; sourceTree = "<group>"; };
+		D0F705C5170B440431B89A9C /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		E674A1474AB068D656B43146 /* AppSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsViewModel.swift; sourceTree = "<group>"; };
+		E760645E80A9ECCE9BC49FB2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		F276C6D791D43D461E7501CD /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
+		F5EA3D1D383D16F33C3C75CE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F833664F34A5C16671A79698 /* ProfileEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditorView.swift; sourceTree = "<group>"; };
+		F84DAECFBCC0802C4A8FC015 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
+		FA85525634B770E5A8816869 /* FieldAnalysisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldAnalysisView.swift; sourceTree = "<group>"; };
+		FBD8DDD85426BBDE5D95F163 /* MapWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapWebView.swift; sourceTree = "<group>"; };
+		FC33889808910F104BECBEC6 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0655F157F96663054BF2F026 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				4406B61BB548AEDED92F3A2B /* AIService.swift */,
+				C7251B5D91161E76EDCF2148 /* CameraService.swift */,
+				FC33889808910F104BECBEC6 /* CoreDataStack.swift */,
+				4CB0FA0D5BD8B786103DF09F /* DataManager.swift */,
+				0A11D648897F9D4A47D43180 /* ExportService.swift */,
+				D0F705C5170B440431B89A9C /* LocationService.swift */,
+				B8F21E22DACF532EEC299ED5 /* NotificationService.swift */,
+				F84DAECFBCC0802C4A8FC015 /* WeatherService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		44C9384217E16E1F7CB322E2 = {
+			isa = PBXGroup;
+			children = (
+				D537C8B42D6B038E6F783826 /* SmartFarmAI */,
+				5DE48FDEA8CB97EEECE8A40A /* Tests */,
+				5EADA8DD3497E5CEE6D5676B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		48F3197B77E3F5B6071B17DE /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				E674A1474AB068D656B43146 /* AppSettingsViewModel.swift */,
+				85D1EC76106D41ED6134C25E /* FieldSelectionViewModel.swift */,
+				CEBBE381B74641DCEE36CB92 /* OptimizationViewModel.swift */,
+				950FD752A8074AF5B7FD1EAC /* PestDetectionViewModel.swift */,
+				6A1B257283CB72F3B59E67CA /* YieldPredictionViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		5DE48FDEA8CB97EEECE8A40A /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				3BADC15FA02D4894B16DBD08 /* SmartFarmAITests.swift */,
+			);
+			name = Tests;
+			path = SmartFarmAI/Tests;
+			sourceTree = "<group>";
+		};
+		5EADA8DD3497E5CEE6D5676B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				81F300CD4AE25852DA3A6C60 /* SmartFarmAI.app */,
+				CE59FFF5AB139D709A7C3F8B /* SmartFarmAITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		88B364E601540D2D7AAC9421 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				758DC306B8743A153F12AA55 /* Info.plist */,
+				6D5AB0ADD6980C4BC29FADC0 /* MockData.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		966F2704EF827B489894A5C8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F5EA3D1D383D16F33C3C75CE /* ContentView.swift */,
+				FA85525634B770E5A8816869 /* FieldAnalysisView.swift */,
+				7AAB0B87FB42AA449AE8E98A /* MapView.swift */,
+				24421F302D9B59A1BC1F7FE1 /* OnboardingView.swift */,
+				4B5673B0B25E1F870F90AC21 /* OptimizationView.swift */,
+				97D02A4916BAB40631CA3063 /* PestDetectionView.swift */,
+				E760645E80A9ECCE9BC49FB2 /* SettingsView.swift */,
+				975F5ECC7C071B0EAB4A96DC /* YieldPredictionView.swift */,
+				BFBC9F2290666EAE46ACAEFC /* Components */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BFBC9F2290666EAE46ACAEFC /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9C5EA613352D547162661280 /* CalendarView.swift */,
+				913560C8C51B9371FD0B443F /* CameraView.swift */,
+				32503FB64473B658C38EC561 /* CardModifier.swift */,
+				A515A8117064A998EA2FE125 /* MapKitView.swift */,
+				8285234EFACA4C76D8339C24 /* MapWebView.html */,
+				FBD8DDD85426BBDE5D95F163 /* MapWebView.swift */,
+				ACD8BA22A487C88A84B65F80 /* PestResultDetailView.swift */,
+				F833664F34A5C16671A79698 /* ProfileEditorView.swift */,
+				F276C6D791D43D461E7501CD /* Styles.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		D537C8B42D6B038E6F783826 /* SmartFarmAI */ = {
+			isa = PBXGroup;
+			children = (
+				97206A3E980E2C78DB694A91 /* README.md */,
+				2176EF333082D21217A6A321 /* SmartFarmAIApp.swift */,
+				FBCDB6DE90FA95C58F4824D0 /* Models */,
+				88B364E601540D2D7AAC9421 /* Resources */,
+				0655F157F96663054BF2F026 /* Services */,
+				48F3197B77E3F5B6071B17DE /* ViewModels */,
+				966F2704EF827B489894A5C8 /* Views */,
+			);
+			path = SmartFarmAI;
+			sourceTree = "<group>";
+		};
+		FBCDB6DE90FA95C58F4824D0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4EF7A6BC00D2F8553393E1EE /* Crop.swift */,
+				4E8D8FC84D4EAAB338B4988A /* FarmPlan.swift */,
+				C13FB030CB27E59735A8C58D /* PestDetection.swift */,
+				B259CAA5244BD28BC0057D7A /* Sensor.swift */,
+				2746D72E8965A4F2CD6FF06A /* UserProfile.swift */,
+				CACCC98CA7F202405FCAC6E0 /* WeatherData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5CECF8EA6F4FC0626D1592B2 /* SmartFarmAITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4459DD1AA0CAA43CE84A42A2 /* Build configuration list for PBXNativeTarget "SmartFarmAITests" */;
+			buildPhases = (
+				4EA05D43475FE7E5D34E78A0 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				502C592B4F784368553821C2 /* PBXTargetDependency */,
+			);
+			name = SmartFarmAITests;
+			packageProductDependencies = (
+			);
+			productName = SmartFarmAITests;
+			productReference = CE59FFF5AB139D709A7C3F8B /* SmartFarmAITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		5E4C585F70285316D49CEEC9 /* SmartFarmAI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3C7164405E741FD1339481CC /* Build configuration list for PBXNativeTarget "SmartFarmAI" */;
+			buildPhases = (
+				A96335F3AD4130F6A7786AAD /* Sources */,
+				9B711E63059A0AADD43D749E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SmartFarmAI;
+			packageProductDependencies = (
+			);
+			productName = SmartFarmAI;
+			productReference = 81F300CD4AE25852DA3A6C60 /* SmartFarmAI.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F99B2876A8794161F066BE6D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+			};
+			buildConfigurationList = 1D45C8A0763959BEDDF6ED63 /* Build configuration list for PBXProject "SmartFarmAI" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 44C9384217E16E1F7CB322E2;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5E4C585F70285316D49CEEC9 /* SmartFarmAI */,
+				5CECF8EA6F4FC0626D1592B2 /* SmartFarmAITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9B711E63059A0AADD43D749E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8483E426BB1CFC57B2387D8F /* MapWebView.html in Resources */,
+				3F3C4A8194A0D52233B7BF97 /* MockData.json in Resources */,
+				A347359F7E42ECBC41EE799F /* README.md in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4EA05D43475FE7E5D34E78A0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0D72C4F64CD10C8FFD4E5F62 /* SmartFarmAITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A96335F3AD4130F6A7786AAD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A35AEA1B19135DACAA57419B /* AIService.swift in Sources */,
+				005FACAC9A25959F9A1ABF51 /* AppSettingsViewModel.swift in Sources */,
+				05D0B736269AE004915E3571 /* CalendarView.swift in Sources */,
+				5AB27AFD7F0BAB9E3E38AD2E /* CameraService.swift in Sources */,
+				98C715E680D0616AE1444B13 /* CameraView.swift in Sources */,
+				0CC82D047EF5B2633C4283FE /* CardModifier.swift in Sources */,
+				A5D0D17DA412BAEEAEB52CAB /* ContentView.swift in Sources */,
+				DB7C635A503765FE8DE10FA3 /* CoreDataStack.swift in Sources */,
+				0A9405C33B8F71DBDA9407A2 /* Crop.swift in Sources */,
+				91B4979338984211965EB020 /* DataManager.swift in Sources */,
+				0783A79E61C618B9F9C0954F /* ExportService.swift in Sources */,
+				ED4AAD20DE7D0BE26A53A311 /* FarmPlan.swift in Sources */,
+				1DEF801FBAE37952616091FF /* FieldAnalysisView.swift in Sources */,
+				26F2D242BE86BBF35F68335F /* FieldSelectionViewModel.swift in Sources */,
+				1576B44368D57F53EC4AD454 /* LocationService.swift in Sources */,
+				1C5F8E27B972EBEEE774CB7F /* MapKitView.swift in Sources */,
+				C52C2D28A0F6FDABCBF04FC2 /* MapView.swift in Sources */,
+				1A122BB09235134A30E77083 /* MapWebView.swift in Sources */,
+				8E4FDAA9BA0C6BA88B5F24C6 /* NotificationService.swift in Sources */,
+				7B842FFB72D6918E6F72D434 /* OnboardingView.swift in Sources */,
+				8048FCA75FC2D29D493BF617 /* OptimizationView.swift in Sources */,
+				636519FBDDD10F07ABF2876C /* OptimizationViewModel.swift in Sources */,
+				BB9A3280447C42D423DCA062 /* PestDetection.swift in Sources */,
+				E264861FE399C7F81B190122 /* PestDetectionView.swift in Sources */,
+				C2800B256E4158967516CE57 /* PestDetectionViewModel.swift in Sources */,
+				0F03FB37119A75E6131A2F41 /* PestResultDetailView.swift in Sources */,
+				D0E0876AEE786686AD261F20 /* ProfileEditorView.swift in Sources */,
+				A656DEC74C3550464156B901 /* Sensor.swift in Sources */,
+				7BEC04F5BC77D77A361FD7EC /* SettingsView.swift in Sources */,
+				AD78EC7269050F284A10EFD1 /* SmartFarmAIApp.swift in Sources */,
+				2B71C4D755905827B461E3D3 /* Styles.swift in Sources */,
+				059371985F55E07925C63FF3 /* UserProfile.swift in Sources */,
+				0C137959DA38B415C9B1A9C6 /* WeatherData.swift in Sources */,
+				0F5E968DAF11A85250FF5DDF /* WeatherService.swift in Sources */,
+				B7B2417BCCC56CC8389EDAA7 /* YieldPredictionView.swift in Sources */,
+				3C675C144FCE6354D44BEB59 /* YieldPredictionViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		502C592B4F784368553821C2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5E4C585F70285316D49CEEC9 /* SmartFarmAI */;
+			targetProxy = 08A7B9AC3F75A264DB7757DC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1E75BF135FABC5EE3CE28343 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3CF0BC581BF481A59FD6ED97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.SmartFarmAITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartFarmAI.app/SmartFarmAI";
+			};
+			name = Debug;
+		};
+		9F74B2B88C2E55F2085D832B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				INFOPLIST_FILE = SmartFarmAI/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.SmartFarmAI;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A204F4E69914597F03041A51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		AD5A8E028E9AC9EF0547F6E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				INFOPLIST_FILE = SmartFarmAI/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.SmartFarmAI;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F7D7C04725698ACC6CB6AB00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.SmartFarmAITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartFarmAI.app/SmartFarmAI";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D45C8A0763959BEDDF6ED63 /* Build configuration list for PBXProject "SmartFarmAI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1E75BF135FABC5EE3CE28343 /* Debug */,
+				A204F4E69914597F03041A51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3C7164405E741FD1339481CC /* Build configuration list for PBXNativeTarget "SmartFarmAI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD5A8E028E9AC9EF0547F6E6 /* Debug */,
+				9F74B2B88C2E55F2085D832B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4459DD1AA0CAA43CE84A42A2 /* Build configuration list for PBXNativeTarget "SmartFarmAITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CF0BC581BF481A59FD6ED97 /* Debug */,
+				F7D7C04725698ACC6CB6AB00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F99B2876A8794161F066BE6D /* Project object */;
+}

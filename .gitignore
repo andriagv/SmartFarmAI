@@ -27,7 +27,7 @@ fastlane/test_output
 .DS_Store
 
 # XcodeGen outputs (do not commit .xcodeproj if using XcodeGen)
-SmartFarmAI.xcodeproj/
+# SmartFarmAI.xcodeproj/
 
 # Python
 __pycache__/

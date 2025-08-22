@@ -71,6 +71,7 @@ final class OptimizationViewModel: ObservableObject {
     @Published var recommendations: [OptimizationRecommendation] = []
     @Published var showToast = false
     @Published var toastMessage = ""
+    @Published var showSensorDropdown = false
     
     // MARK: - Initialization
     init() {
@@ -78,30 +79,33 @@ final class OptimizationViewModel: ObservableObject {
     }
     
     // MARK: - Public Methods
-    func addSampleSensors() {
-        let sampleSensors = [
-            Sensor(type: .soilPh, name: "Soil pH Sensor 1"),
-            Sensor(type: .moisture, name: "Moisture Sensor 1"),
-            Sensor(type: .environmental, name: "Environmental Sensor 1"),
-            Sensor(type: .optical, name: "Optical Sensor 1")
-        ]
-        
-        sensors.append(contentsOf: sampleSensors)
-        showToast(message: "Added \(sampleSensors.count) sample sensors")
-        
-        // Simulate connection process
-        Task {
-            for (index, sensor) in sampleSensors.enumerated() {
-                try await Task.sleep(nanoseconds: 1_000_000_000) // 1 second
-                await MainActor.run {
-                    if let sensorIndex = sensors.firstIndex(where: { $0.id == sensor.id }) {
-                        sensors[sensorIndex].isConnected = true
-                        // Generate some sample data
-                        sensors[sensorIndex].data = generateSampleData(for: sensor.type)
-                    }
-                }
-            }
-        }
+    func toggleSensorDropdown() {
+        showSensorDropdown.toggle()
+    }
+    
+    func addSensor(type: SensorType) {
+        let sensor = Sensor(type: type, name: "\(type.rawValue) Sensor")
+        sensors.append(sensor)
+        showToast(message: "Added \(type.rawValue) sensor")
+    }
+    
+    func removeSensor(_ sensor: Sensor) {
+        sensors.removeAll { $0.id == sensor.id }
+        showToast(message: "Removed \(sensor.type.rawValue) sensor")
+    }
+    
+    func connectSensor(_ sensor: Sensor) {
+        guard let index = sensors.firstIndex(where: { $0.id == sensor.id }) else { return }
+        sensors[index].isConnected = true
+        sensors[index].data = generateSampleData(for: sensor.type)
+        showToast(message: "\(sensor.type.rawValue) sensor connected")
+    }
+    
+    func disconnectSensor(_ sensor: Sensor) {
+        guard let index = sensors.firstIndex(where: { $0.id == sensor.id }) else { return }
+        sensors[index].isConnected = false
+        sensors[index].data = [:]
+        showToast(message: "\(sensor.type.rawValue) sensor disconnected")
     }
     
     private func generateSampleData(for type: SensorType) -> [String: Double] {

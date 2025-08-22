@@ -120,11 +120,57 @@ struct OptimizationView: View {
                 .font(.subheadline)
                 .foregroundColor(.white.opacity(0.8))
             
-            Button("Add Sample Sensors") {
-                viewModel.addSampleSensors()
+            Button(action: {
+                viewModel.toggleSensorDropdown()
+            }) {
+                HStack {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.title2)
+                    Text("Add Sample Sensor")
+                        .fontWeight(.semibold)
+                }
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(.ultraThinMaterial)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(.white.opacity(0.3), lineWidth: 1)
+                        )
+                )
             }
-            .buttonStyle(.borderedProminent)
-            .tint(.green)
+            
+            // Sensor Dropdown Menu
+            if viewModel.showSensorDropdown {
+                VStack(spacing: 8) {
+                    ForEach(SensorType.allCases, id: \.self) { sensorType in
+                        HStack {
+                            Text(sensorType.icon)
+                                .font(.title2)
+                            Text(sensorType.rawValue)
+                                .font(.body)
+                                .foregroundColor(.white)
+                            Spacer()
+                            Button(action: {
+                                viewModel.addSensor(type: sensorType)
+                            }) {
+                                Image(systemName: "plus.circle.fill")
+                                    .foregroundColor(.green)
+                                    .font(.title2)
+                            }
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(.ultraThinMaterial.opacity(0.5))
+                        )
+                    }
+                }
+                .padding(.top, 8)
+            }
         }
         .padding()
         .background(
@@ -228,7 +274,7 @@ struct OptimizationView: View {
                 GridItem(.flexible())
             ], spacing: 16) {
                 ForEach(viewModel.sensors) { sensor in
-                    SensorCard(sensor: sensor)
+                    SensorCard(sensor: sensor, viewModel: viewModel)
                 }
             }
         }
@@ -345,6 +391,7 @@ struct SimpleRecommendationCard: View {
 
 struct SensorCard: View {
     let sensor: Sensor
+    @ObservedObject var viewModel: OptimizationViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -375,31 +422,70 @@ struct SensorCard: View {
                     )
             }
             
-            if sensor.isConnected {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Status: Connected")
-                        .font(.caption)
-                        .foregroundColor(.green)
-                    
-                    if !sensor.data.isEmpty {
-                        ForEach(Array(sensor.data.keys.sorted()), id: \.self) { key in
-                            HStack {
-                                Text(key)
-                                    .font(.caption)
-                                    .foregroundColor(.white.opacity(0.8))
-                                Spacer()
-                                Text(String(format: "%.1f", sensor.data[key] ?? 0))
-                                    .font(.caption)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.white)
-                            }
-                        }
+            // Status Text
+            HStack {
+                Text("Status:")
+                    .font(.caption)
+                    .foregroundColor(.white.opacity(0.8))
+                Text(sensor.isConnected ? "🟢 Connected" : "⭕ Disconnected")
+                    .font(.caption)
+                    .foregroundColor(sensor.isConnected ? .green : .red)
+                Spacer()
+            }
+            
+            // Sensor Data (only show if connected)
+            if sensor.isConnected && !sensor.data.isEmpty {
+                ForEach(Array(sensor.data.keys.sorted()), id: \.self) { key in
+                    HStack {
+                        Text(key)
+                            .font(.caption)
+                            .foregroundColor(.white.opacity(0.8))
+                        Spacer()
+                        Text(String(format: "%.1f", sensor.data[key] ?? 0))
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
                     }
                 }
-            } else {
-                Text("Disconnected")
-                    .font(.caption)
-                    .foregroundColor(.red)
+            }
+            
+            // Action Buttons
+            HStack(spacing: 8) {
+                Button(action: {
+                    if sensor.isConnected {
+                        viewModel.disconnectSensor(sensor)
+                    } else {
+                        viewModel.connectSensor(sensor)
+                    }
+                }) {
+                    Text(sensor.isConnected ? "Disconnect" : "Connect")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(sensor.isConnected ? Color.orange : Color.green)
+                        )
+                }
+                
+                Spacer()
+                
+                Button(action: {
+                    viewModel.removeSensor(sensor)
+                }) {
+                    Text("Remove")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(Color.red)
+                        )
+                }
             }
         }
         .padding()

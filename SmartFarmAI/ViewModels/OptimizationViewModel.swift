@@ -30,13 +30,24 @@ enum SensorType: String, CaseIterable, Identifiable {
     }
 }
 
+// MARK: - Connection Status
+enum ConnectionStatus {
+    case disconnected
+    case connecting
+    case connected
+}
+
 // MARK: - Simple Sensor Model
 struct Sensor: Identifiable {
     let id = UUID()
     let type: SensorType
     let name: String
-    var isConnected: Bool = false
+    var status: ConnectionStatus = .disconnected
     var data: [String: Double] = [:]
+    
+    var isConnected: Bool {
+        return status == .connected
+    }
 }
 
 // MARK: - Basic Types for Simple Implementation
@@ -96,14 +107,25 @@ final class OptimizationViewModel: ObservableObject {
     
     func connectSensor(_ sensor: Sensor) {
         guard let index = sensors.firstIndex(where: { $0.id == sensor.id }) else { return }
-        sensors[index].isConnected = true
-        sensors[index].data = generateSampleData(for: sensor.type)
-        showToast(message: "\(sensor.type.rawValue) sensor connected")
+        sensors[index].status = .connecting
+        showToast(message: "Connecting to \(sensor.type.rawValue) sensor...")
+        
+        // Simulate connection delay
+        Task {
+            try await Task.sleep(nanoseconds: 2_500_000_000) // 2.5 seconds
+            await MainActor.run {
+                if index < sensors.count {
+                    sensors[index].status = .connected
+                    sensors[index].data = generateSampleData(for: sensor.type)
+                    showToast(message: "\(sensor.type.rawValue) sensor connected")
+                }
+            }
+        }
     }
     
     func disconnectSensor(_ sensor: Sensor) {
         guard let index = sensors.firstIndex(where: { $0.id == sensor.id }) else { return }
-        sensors[index].isConnected = false
+        sensors[index].status = .disconnected
         sensors[index].data = [:]
         showToast(message: "\(sensor.type.rawValue) sensor disconnected")
     }

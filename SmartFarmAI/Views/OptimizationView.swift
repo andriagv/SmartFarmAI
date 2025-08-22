@@ -244,14 +244,12 @@ struct OptimizationView: View {
                     )
             }
             
-            LazyVGrid(columns: [
-                GridItem(.flexible()),
-                GridItem(.flexible())
-            ], spacing: 16) {
+            VStack(spacing: 12) {
                 ForEach(viewModel.sensors) { sensor in
                     PremiumSensorCard(sensor: sensor, viewModel: viewModel)
                 }
             }
+            .padding(.horizontal, 16)
         }
         .premiumCard(elevation: 4)
     }
@@ -367,120 +365,144 @@ struct PremiumSensorCard: View {
     let sensor: Sensor
     @ObservedObject var viewModel: OptimizationViewModel
     
+    private var statusText: String {
+        switch sensor.status {
+        case .disconnected:
+            return "🔴 Disconnected"
+        case .connecting:
+            return "🟡 Connecting..."
+        case .connected:
+            return "🟢 Connected"
+        }
+    }
+    
+    private var statusColor: Color {
+        switch sensor.status {
+        case .disconnected:
+            return Color.statusDisconnected
+        case .connecting:
+            return Color.accentOrange
+        case .connected:
+            return Color.statusConnected
+        }
+    }
+    
+    private var lastUpdateText: String {
+        switch sensor.status {
+        case .disconnected:
+            return "Never"
+        case .connecting:
+            return "Connecting..."
+        case .connected:
+            return "2 min ago"
+        }
+    }
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            // Header
-            HStack {
+        HStack(spacing: 16) {
+            // Left Side: Icon + Content
+            HStack(spacing: 12) {
+                // Sensor Icon
                 Text(sensor.type.icon)
                     .font(.system(size: 24, weight: .medium))
                 
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: 4) {
+                    // Sensor Name
                     Text(sensor.name)
-                        .font(.premiumHeadline(16))
+                        .font(.premiumHeadline(18))
                         .foregroundColor(Color.textPrimary)
                     
-                    Text(sensor.type.rawValue)
-                        .font(.premiumCaption(12))
+                    // Type and Last Update
+                    Text("Type: \(sensor.type.rawValue) • Last Update: \(lastUpdateText)")
+                        .font(.premiumCaption(14))
                         .foregroundColor(Color.textSecondary)
                 }
-                
-                Spacer()
-                
+            }
+            
+            Spacer()
+            
+            // Right Side: Status + Buttons
+            VStack(alignment: .trailing, spacing: 8) {
                 // Status Indicator
-                Circle()
-                    .fill(sensor.isConnected ? Color.statusConnected : Color.statusDisconnected)
-                    .frame(width: 12, height: 12)
-                    .overlay(
-                        Circle()
-                            .stroke(Color.white, lineWidth: 2)
-                    )
-            }
-            
-            // Status Text
-            HStack {
-                Text("Status:")
-                    .font(.premiumCaption(12))
-                    .foregroundColor(Color.textSecondary)
-                Text(sensor.isConnected ? "🟢 Connected" : "🔴 Disconnected")
-                    .font(.premiumCaption(12))
-                    .foregroundColor(sensor.isConnected ? Color.statusConnected : Color.statusDisconnected)
-                Spacer()
-            }
-            
-            // Last Update
-            HStack {
-                Text("Last Update:")
-                    .font(.premiumCaption(12))
-                    .foregroundColor(Color.textSecondary)
-                Text(sensor.isConnected ? "2 min ago" : "Never")
-                    .font(.premiumCaption(12))
-                    .foregroundColor(Color.textSecondary)
-                Spacer()
-            }
-            
-            // Sensor Data (only show if connected)
-            if sensor.isConnected && !sensor.data.isEmpty {
-                VStack(spacing: 8) {
-                    ForEach(Array(sensor.data.keys.sorted()), id: \.self) { key in
-                        HStack {
-                            Text(key)
-                                .font(.premiumCaption(12))
-                                .foregroundColor(Color.textSecondary)
-                            Spacer()
-                            Text(String(format: "%.1f", sensor.data[key] ?? 0))
-                                .font(.premiumCaption(12))
-                                .fontWeight(.semibold)
-                                .foregroundColor(Color.textPrimary)
+                HStack(spacing: 6) {
+                    Circle()
+                        .fill(statusColor)
+                        .frame(width: 8, height: 8)
+                        .scaleEffect(sensor.status == .connecting ? 1.2 : 1.0)
+                        .animation(
+                            sensor.status == .connecting ?
+                            Animation.easeInOut(duration: 1.0).repeatForever(autoreverses: true) :
+                            .default,
+                            value: sensor.status
+                        )
+                    
+                    Text(sensor.status == .disconnected ? "Disconnected" :
+                         sensor.status == .connecting ? "Connecting" : "Connected")
+                        .font(.premiumCaption(14))
+                        .fontWeight(.medium)
+                        .foregroundColor(statusColor)
+                }
+                
+                // Action Buttons
+                HStack(spacing: 8) {
+                    // Connect/Disconnect Button
+                    Button(action: {
+                        if sensor.status == .connected {
+                            viewModel.disconnectSensor(sensor)
+                        } else if sensor.status == .disconnected {
+                            viewModel.connectSensor(sensor)
                         }
+                        // Do nothing if connecting
+                    }) {
+                        Text(sensor.status == .connected ? "Disconnect" :
+                             sensor.status == .connecting ? "Cancel" : "Connect")
+                            .font(.premiumCaption(14))
+                            .fontWeight(.semibold)
+                            .foregroundColor(Color.white)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .frame(minWidth: 80)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(sensor.status == .connected ? Color.accentOrange : Color.statusConnected)
+                            )
                     }
-                }
-                .padding(.top, 4)
-            }
-            
-            // Action Buttons
-            HStack(spacing: 8) {
-                Button(action: {
-                    if sensor.isConnected {
-                        viewModel.disconnectSensor(sensor)
-                    } else {
-                        viewModel.connectSensor(sensor)
+                    .buttonStyle(PressableButtonStyle())
+                    .disabled(sensor.status == .connecting)
+                    
+                    // Remove Button
+                    Button(action: {
+                        viewModel.removeSensor(sensor)
+                    }) {
+                        Image(systemName: "trash")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(Color.white)
+                            .padding(8)
+                            .background(
+                                Circle()
+                                    .fill(Color.statusWarning)
+                            )
                     }
-                }) {
-                    Text(sensor.isConnected ? "Disconnect" : "Connect")
-                        .font(.premiumCaption(12))
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color.white)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(
-                            RoundedRectangle(cornerRadius: 6)
-                                .fill(sensor.isConnected ? Color.accentOrange : Color.statusConnected)
-                        )
+                    .buttonStyle(PressableButtonStyle())
                 }
-                .buttonStyle(PressableButtonStyle())
-                
-                Spacer()
-                
-                Button(action: {
-                    viewModel.removeSensor(sensor)
-                }) {
-                    Image(systemName: "trash")
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(Color.white)
-                        .padding(6)
-                        .background(
-                            Circle()
-                                .fill(Color.statusWarning)
-                        )
-                }
-                .buttonStyle(PressableButtonStyle())
             }
         }
-        .padding(16)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 20)
+        .frame(height: 80)
+        .frame(maxWidth: .infinity)
         .background(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: 8)
                 .fill(Color.backgroundWhite)
-                .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
+                .overlay(
+                    // Left border accent for connected sensors
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(
+                            sensor.status == .connected ? Color.statusConnected.opacity(0.3) : Color.clear,
+                            lineWidth: 2
+                        )
+                )
+                .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 2)
         )
     }
 }

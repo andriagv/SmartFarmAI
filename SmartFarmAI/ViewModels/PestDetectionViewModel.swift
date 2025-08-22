@@ -33,6 +33,10 @@ final class PestDetectionViewModel: ObservableObject {
             self.isAnalyzing = false
         }
     }
+    
+    func dismissLastResult() {
+        lastResult = nil
+    }
 }
 
 

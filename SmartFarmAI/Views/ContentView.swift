@@ -44,10 +44,10 @@ struct ContentView: View {
 
             NavigationStack {
                 OptimizationView()
-                    .navigationTitle("Water & Fertilizer")
+                    .navigationTitle("Farm Optimization")
             }
             .tabItem {
-                Label("Optimize", systemImage: "drop.triangle")
+                Label("Optimize", systemImage: "brain.head.profile")
             }
 
             NavigationStack {
@@ -67,7 +67,6 @@ struct ContentView_Previews: PreviewProvider {
             .environmentObject(AppSettingsViewModel())
             .environmentObject(YieldPredictionViewModel())
             .environmentObject(PestDetectionViewModel())
-            .environmentObject(OptimizationViewModel())
     }
 }
 

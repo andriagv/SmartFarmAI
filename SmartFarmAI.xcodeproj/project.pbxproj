@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,7 @@
 		0A9405C33B8F71DBDA9407A2 /* Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF7A6BC00D2F8553393E1EE /* Crop.swift */; };
 		0C137959DA38B415C9B1A9C6 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACCC98CA7F202405FCAC6E0 /* WeatherData.swift */; };
 		0CC82D047EF5B2633C4283FE /* CardModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32503FB64473B658C38EC561 /* CardModifier.swift */; };
+		0D45148DE8467F0F1EE10A83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE7E1BE01639777D1A22BC57 /* Assets.xcassets */; };
 		0D72C4F64CD10C8FFD4E5F62 /* SmartFarmAITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BADC15FA02D4894B16DBD08 /* SmartFarmAITests.swift */; };
 		0F03FB37119A75E6131A2F41 /* PestResultDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD8BA22A487C88A84B65F80 /* PestResultDetailView.swift */; };
 		0F5E968DAF11A85250FF5DDF /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84DAECFBCC0802C4A8FC015 /* WeatherService.swift */; };
@@ -47,6 +48,7 @@
 		DB7C635A503765FE8DE10FA3 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC33889808910F104BECBEC6 /* CoreDataStack.swift */; };
 		E264861FE399C7F81B190122 /* PestDetectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D02A4916BAB40631CA3063 /* PestDetectionView.swift */; };
 		ED4AAD20DE7D0BE26A53A311 /* FarmPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D8FC84D4EAAB338B4988A /* FarmPlan.swift */; };
+		F47CE725FA4A914D3DCAFCBB /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D46AF6F27CF5C9C871C16A /* LogoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,7 @@
 		2176EF333082D21217A6A321 /* SmartFarmAIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFarmAIApp.swift; sourceTree = "<group>"; };
 		24421F302D9B59A1BC1F7FE1 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		2746D72E8965A4F2CD6FF06A /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		30D46AF6F27CF5C9C871C16A /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		32503FB64473B658C38EC561 /* CardModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModifier.swift; sourceTree = "<group>"; };
 		3BADC15FA02D4894B16DBD08 /* SmartFarmAITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFarmAITests.swift; sourceTree = "<group>"; };
 		4406B61BB548AEDED92F3A2B /* AIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIService.swift; sourceTree = "<group>"; };
@@ -75,7 +78,7 @@
 		6D5AB0ADD6980C4BC29FADC0 /* MockData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockData.json; sourceTree = "<group>"; };
 		758DC306B8743A153F12AA55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7AAB0B87FB42AA449AE8E98A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		81F300CD4AE25852DA3A6C60 /* SmartFarmAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartFarmAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		81F300CD4AE25852DA3A6C60 /* SmartFarmAI.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SmartFarmAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8285234EFACA4C76D8339C24 /* MapWebView.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = MapWebView.html; sourceTree = "<group>"; };
 		85D1EC76106D41ED6134C25E /* FieldSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldSelectionViewModel.swift; sourceTree = "<group>"; };
 		913560C8C51B9371FD0B443F /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
@@ -94,6 +97,7 @@
 		CE59FFF5AB139D709A7C3F8B /* SmartFarmAITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SmartFarmAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBBE381B74641DCEE36CB92 /* OptimizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptimizationViewModel.swift; sourceTree = "<group>"; };
 		D0F705C5170B440431B89A9C /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		DE7E1BE01639777D1A22BC57 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E674A1474AB068D656B43146 /* AppSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsViewModel.swift; sourceTree = "<group>"; };
 		E760645E80A9ECCE9BC49FB2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F276C6D791D43D461E7501CD /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
@@ -163,6 +167,7 @@
 		88B364E601540D2D7AAC9421 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				DE7E1BE01639777D1A22BC57 /* Assets.xcassets */,
 				758DC306B8743A153F12AA55 /* Info.plist */,
 				6D5AB0ADD6980C4BC29FADC0 /* MockData.json */,
 			);
@@ -191,6 +196,7 @@
 				9C5EA613352D547162661280 /* CalendarView.swift */,
 				913560C8C51B9371FD0B443F /* CameraView.swift */,
 				32503FB64473B658C38EC561 /* CardModifier.swift */,
+				30D46AF6F27CF5C9C871C16A /* LogoView.swift */,
 				A515A8117064A998EA2FE125 /* MapKitView.swift */,
 				8285234EFACA4C76D8339C24 /* MapWebView.html */,
 				FBD8DDD85426BBDE5D95F163 /* MapWebView.swift */,
@@ -286,6 +292,7 @@
 			);
 			mainGroup = 44C9384217E16E1F7CB322E2;
 			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -300,6 +307,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D45148DE8467F0F1EE10A83 /* Assets.xcassets in Resources */,
 				8483E426BB1CFC57B2387D8F /* MapWebView.html in Resources */,
 				3F3C4A8194A0D52233B7BF97 /* MockData.json in Resources */,
 				A347359F7E42ECBC41EE799F /* README.md in Resources */,
@@ -336,6 +344,7 @@
 				1DEF801FBAE37952616091FF /* FieldAnalysisView.swift in Sources */,
 				26F2D242BE86BBF35F68335F /* FieldSelectionViewModel.swift in Sources */,
 				1576B44368D57F53EC4AD454 /* LocationService.swift in Sources */,
+				F47CE725FA4A914D3DCAFCBB /* LogoView.swift in Sources */,
 				1C5F8E27B972EBEEE774CB7F /* MapKitView.swift in Sources */,
 				C52C2D28A0F6FDABCBF04FC2 /* MapView.swift in Sources */,
 				1A122BB09235134A30E77083 /* MapWebView.swift in Sources */,
@@ -455,7 +464,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = QCGLP7ZKSQ;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = SmartFarmAI/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -532,7 +540,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = QCGLP7ZKSQ;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = SmartFarmAI/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;

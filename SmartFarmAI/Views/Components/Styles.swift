@@ -41,4 +41,26 @@ extension LinearGradient {
     }
 }
 
+// MARK: - Card Modifier for Glass-morphism
+struct GlassCardModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(.ultraThinMaterial)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(.white.opacity(0.2), lineWidth: 1)
+                    )
+            )
+    }
+}
+
+extension View {
+    func glassCard() -> some View {
+        modifier(GlassCardModifier())
+    }
+}
+
 

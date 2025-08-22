@@ -1,67 +1,195 @@
 import Foundation
 import SwiftUI
+import Combine
 
-enum GrowthStage: String, CaseIterable, Codable {
-    case seedling
-    case vegetative
-    case flowering
-    case grainFill
-    case maturity
-}
-
-struct UsagePoint: Identifiable, Hashable, Codable {
-    var id: UUID = UUID()
-    let week: String
-    let liters: Double
-}
-
-struct OptimizationRecommendation: Hashable, Codable {
-    let icon: String
-    let text: String
-}
-
-final class OptimizationViewModel: ObservableObject {
-    @Published var soilMoisture: Int = 40
-    @Published var recentRainfallMm: Int = 10
-    @Published var fertilizerHistory: String = ""
-    @Published var growthStage: GrowthStage = .vegetative
-
-    @Published var recommendations: [OptimizationRecommendation] = []
-    @Published var usageTrend: [UsagePoint] = []
-    @Published var schedule: [Date] = []
-    @Published var newScheduleDate: Date = Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
-
-    func loadMock() {
-        usageTrend = [
-            UsagePoint(week: "W1", liters: 120),
-            UsagePoint(week: "W2", liters: 98),
-            UsagePoint(week: "W3", liters: 110),
-            UsagePoint(week: "W4", liters: 90)
-        ]
-        schedule = [Date().addingTimeInterval(3600*24), Date().addingTimeInterval(3600*72)]
-    }
-
-    func calculate() {
-        let moistureNeedHigh = soilMoisture < 35 && recentRainfallMm < 15
-        recommendations = [
-            OptimizationRecommendation(icon: "drop", text: moistureNeedHigh ? "Irrigate 15 mm within 24 hours." : "No irrigation needed today."),
-            OptimizationRecommendation(icon: "leaf", text: growthStage == .vegetative ? "Apply nitrogen side-dress (30 kg/ha)." : "Maintain current fertilization schedule."),
-            OptimizationRecommendation(icon: "clock", text: "Re-evaluate after next rainfall.")
-        ]
-        // Auto propose next schedule
-        if moistureNeedHigh {
-            newScheduleDate = Date().addingTimeInterval(3600 * 20)
+// MARK: - Basic Sensor Types
+enum SensorType: String, CaseIterable, Identifiable {
+    case soilPh = "Soil pH"
+    case moisture = "Moisture"
+    case environmental = "Environmental"
+    case optical = "Optical"
+    
+    var id: String { rawValue }
+    
+    var icon: String {
+        switch self {
+        case .soilPh: return "drop.circle.fill"
+        case .moisture: return "humidity"
+        case .environmental: return "thermometer"
+        case .optical: return "eye.fill"
         }
     }
-
-    func scheduleNotification(for date: Date) {
-        NotificationService.shared.schedule(title: "Farm Task", body: "Water/Fertilize as planned.", date: date)
+    
+    var color: Color {
+        switch self {
+        case .soilPh: return .orange
+        case .moisture: return .blue
+        case .environmental: return .cyan
+        case .optical: return .green
+        }
     }
+}
 
-    func addSchedule() {
-        schedule.append(newScheduleDate)
-        schedule.sort()
-        scheduleNotification(for: newScheduleDate)
+// MARK: - Simple Sensor Model
+struct Sensor: Identifiable {
+    let id = UUID()
+    let type: SensorType
+    let name: String
+    var isConnected: Bool = false
+    var data: [String: Double] = [:]
+}
+
+// MARK: - Basic Types for Simple Implementation
+struct OptimizationRecommendation: Identifiable, Codable {
+    let id = UUID()
+    let title: String
+    let description: String
+    let impact: String
+    let priority: Priority
+    
+    enum Priority: String, CaseIterable, Codable {
+        case high = "High"
+        case medium = "Medium"
+        case low = "Low"
+        
+        var color: Color {
+            switch self {
+            case .high: return .red
+            case .medium: return .orange
+            case .low: return .green
+            }
+        }
+    }
+}
+
+@MainActor
+final class OptimizationViewModel: ObservableObject {
+    // MARK: - Published Properties
+    @Published var sensors: [Sensor] = []
+    @Published var isCalculating = false
+    @Published var calculationProgress: Double = 0.0
+    @Published var recommendations: [OptimizationRecommendation] = []
+    @Published var showToast = false
+    @Published var toastMessage = ""
+    
+    // MARK: - Initialization
+    init() {
+        // Initialize with empty state
+    }
+    
+    // MARK: - Public Methods
+    func addSampleSensors() {
+        let sampleSensors = [
+            Sensor(type: .soilPh, name: "Soil pH Sensor 1"),
+            Sensor(type: .moisture, name: "Moisture Sensor 1"),
+            Sensor(type: .environmental, name: "Environmental Sensor 1"),
+            Sensor(type: .optical, name: "Optical Sensor 1")
+        ]
+        
+        sensors.append(contentsOf: sampleSensors)
+        showToast(message: "Added \(sampleSensors.count) sample sensors")
+        
+        // Simulate connection process
+        Task {
+            for (index, sensor) in sampleSensors.enumerated() {
+                try await Task.sleep(nanoseconds: 1_000_000_000) // 1 second
+                await MainActor.run {
+                    if let sensorIndex = sensors.firstIndex(where: { $0.id == sensor.id }) {
+                        sensors[sensorIndex].isConnected = true
+                        // Generate some sample data
+                        sensors[sensorIndex].data = generateSampleData(for: sensor.type)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func generateSampleData(for type: SensorType) -> [String: Double] {
+        switch type {
+        case .soilPh:
+            return ["pH": Double.random(in: 5.5...7.5)]
+        case .moisture:
+            return ["Moisture": Double.random(in: 25...75)]
+        case .environmental:
+            return [
+                "Temperature": Double.random(in: 15...35),
+                "Humidity": Double.random(in: 40...85)
+            ]
+        case .optical:
+            return [
+                "NDVI": Double.random(in: 0.3...0.8),
+                "Plant Health": Double.random(in: 60...95)
+            ]
+        }
+    }
+    
+    private func showToast(message: String) {
+        toastMessage = message
+        showToast = true
+        
+        // Hide toast after 3 seconds
+        Task {
+            try await Task.sleep(nanoseconds: 3_000_000_000)
+            await MainActor.run {
+                showToast = false
+            }
+        }
+    }
+    
+    func calculateOptimization() {
+        isCalculating = true
+        calculationProgress = 0.0
+        
+        // Simulate calculation progress
+        Task {
+            for i in 1...50 {
+                try await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+                await MainActor.run {
+                    calculationProgress = Double(i) / 50.0
+                }
+            }
+            
+            await MainActor.run {
+                generateRecommendations()
+                isCalculating = false
+            }
+        }
+    }
+    
+    // MARK: - Private Methods
+    private func generateRecommendations() {
+        recommendations = [
+            OptimizationRecommendation(
+                title: "Implement Precision Irrigation",
+                description: "Based on soil moisture data, implement variable rate irrigation to optimize water usage and improve crop yield by 15-20%.",
+                impact: "Improves water use efficiency by 20-30% and crop yield by 15-20%",
+                priority: .high
+            ),
+            OptimizationRecommendation(
+                title: "Variable Rate Fertilization",
+                description: "Apply site-specific fertilization using sensor data for optimal nutrient distribution and reduced costs.",
+                impact: "Reduces fertilizer costs by 15-25% while improving crop response",
+                priority: .high
+            ),
+            OptimizationRecommendation(
+                title: "Soil pH Adjustment",
+                description: "Apply agricultural lime to raise soil pH to optimal range (6.0-7.0) for better nutrient availability.",
+                impact: "Improves nutrient availability and crop yield by 15-25%",
+                priority: .medium
+            ),
+            OptimizationRecommendation(
+                title: "Deep Tillage Operation",
+                description: "Perform deep tillage to improve root penetration and water infiltration in compacted areas.",
+                impact: "Improves crop root development and yield potential by 10-15%",
+                priority: .medium
+            ),
+            OptimizationRecommendation(
+                title: "Implement Wind Protection",
+                description: "Consider windbreaks or adjust irrigation timing to reduce evaporation and protect young crops.",
+                impact: "Reduces water loss and protects young crops",
+                priority: .low
+            )
+        ]
     }
 }
 

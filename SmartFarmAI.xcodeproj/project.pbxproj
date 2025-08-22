@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -48,7 +48,6 @@
 		DB7C635A503765FE8DE10FA3 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC33889808910F104BECBEC6 /* CoreDataStack.swift */; };
 		E264861FE399C7F81B190122 /* PestDetectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D02A4916BAB40631CA3063 /* PestDetectionView.swift */; };
 		ED4AAD20DE7D0BE26A53A311 /* FarmPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D8FC84D4EAAB338B4988A /* FarmPlan.swift */; };
-		F47CE725FA4A914D3DCAFCBB /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D46AF6F27CF5C9C871C16A /* LogoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,7 +65,6 @@
 		2176EF333082D21217A6A321 /* SmartFarmAIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFarmAIApp.swift; sourceTree = "<group>"; };
 		24421F302D9B59A1BC1F7FE1 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		2746D72E8965A4F2CD6FF06A /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
-		30D46AF6F27CF5C9C871C16A /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		32503FB64473B658C38EC561 /* CardModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModifier.swift; sourceTree = "<group>"; };
 		3BADC15FA02D4894B16DBD08 /* SmartFarmAITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFarmAITests.swift; sourceTree = "<group>"; };
 		4406B61BB548AEDED92F3A2B /* AIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIService.swift; sourceTree = "<group>"; };
@@ -196,7 +194,6 @@
 				9C5EA613352D547162661280 /* CalendarView.swift */,
 				913560C8C51B9371FD0B443F /* CameraView.swift */,
 				32503FB64473B658C38EC561 /* CardModifier.swift */,
-				30D46AF6F27CF5C9C871C16A /* LogoView.swift */,
 				A515A8117064A998EA2FE125 /* MapKitView.swift */,
 				8285234EFACA4C76D8339C24 /* MapWebView.html */,
 				FBD8DDD85426BBDE5D95F163 /* MapWebView.swift */,
@@ -280,7 +277,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1600;
 			};
 			buildConfigurationList = 1D45C8A0763959BEDDF6ED63 /* Build configuration list for PBXProject "SmartFarmAI" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -292,7 +289,6 @@
 			);
 			mainGroup = 44C9384217E16E1F7CB322E2;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -344,7 +340,6 @@
 				1DEF801FBAE37952616091FF /* FieldAnalysisView.swift in Sources */,
 				26F2D242BE86BBF35F68335F /* FieldSelectionViewModel.swift in Sources */,
 				1576B44368D57F53EC4AD454 /* LocationService.swift in Sources */,
-				F47CE725FA4A914D3DCAFCBB /* LogoView.swift in Sources */,
 				1C5F8E27B972EBEEE774CB7F /* MapKitView.swift in Sources */,
 				C52C2D28A0F6FDABCBF04FC2 /* MapView.swift in Sources */,
 				1A122BB09235134A30E77083 /* MapWebView.swift in Sources */,
